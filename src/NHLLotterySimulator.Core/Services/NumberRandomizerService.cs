@@ -40,14 +40,13 @@ public class NumberRandomizerService
     public NumberCombination GetWinningNumbers()
     {
         var random = new Random();
-
-        return new NumberCombination(new int[]
+        var numbers = new List<int>();
+        for (int i = 0; i < NumbersByCombination; i++)
         {
-            random.Next(LowestNumber, HighestNumber),
-            random.Next(LowestNumber, HighestNumber),
-            random.Next(LowestNumber, HighestNumber),
-            random.Next(LowestNumber, HighestNumber),
-        });
+            numbers.Add(random.Next(LowestNumber, HighestNumber));
+        }
+
+        return new NumberCombination(numbers.ToArray());
     }
 
     private static List<int[]> GetNumberCombinations()
