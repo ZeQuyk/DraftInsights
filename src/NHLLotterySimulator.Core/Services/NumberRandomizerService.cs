@@ -8,10 +8,6 @@ public class NumberRandomizerService
     private const int HighestNumber = 14;
     private const int NumbersByCombination = 4;
 
-    public NumberRandomizerService()
-    {
-    }
-
     public List<TeamLotteryNumbers> AssignNumbers(IEnumerable<TeamOdds> teamOdds)
     {
         /* 

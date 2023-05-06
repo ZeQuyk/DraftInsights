@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHLLotterySimulator.Console", "src\NHLLotterySimulator.Console\NHLLotterySimulator.Console.csproj", "{972B1B83-1EAC-41F0-B842-C3626F78AEB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHLLotterySimulator.Core", "NHLLotterySimulator.Core\NHLLotterySimulator.Core.csproj", "{F089627A-777E-4F5C-A333-35EC11F89E7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHLLotterySimulator.Core", "src\NHLLotterySimulator.Core\NHLLotterySimulator.Core.csproj", "{F089627A-777E-4F5C-A333-35EC11F89E7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
