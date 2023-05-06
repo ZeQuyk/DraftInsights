@@ -11,4 +11,7 @@ public class TeamLotteryNumbers
     public string Team { get; set; }
 
     public NumberCombination[] NumberCombinations { get; set; }
+
+    public bool HasNumberCombination(NumberCombination numberCombination)
+        => NumberCombinations.Any(n => n.Equals(numberCombination));
 }

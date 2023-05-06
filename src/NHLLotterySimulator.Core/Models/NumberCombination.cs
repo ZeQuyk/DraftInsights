@@ -16,7 +16,7 @@ public class NumberCombination
             return false;
         }
 
-        return Numbers.SequenceEqual(combination.Numbers);
+        return Numbers.OrderBy(x => x).SequenceEqual(combination.Numbers.OrderBy(x => x));
     }
 
     public override int GetHashCode() => base.GetHashCode();

@@ -17,22 +17,49 @@ public class NumberRandomizerService
             One of the 1,001 number combinations is chosen at random and is removed from the pool of possible numbers, leaving the process with an even 1,000 numbers.
          */
         var numbers = GetNumberCombinations();
-        foreach (var number in numbers)
+        Shuffle(numbers);
+        if (numbers.Count % 2 == 1)
         {
-            Console.WriteLine(string.Join("-", number) + "\n");
+            numbers.RemoveAt(numbers.Count - 1);
         }
 
-        return new List<TeamLotteryNumbers>();
+        var result = new List<TeamLotteryNumbers>();
+        var index = 0;
+        var count = numbers.Count;
+        foreach (var team in teamOdds)
+        {
+            var newIndex = (int)Math.Floor(team.Odds * count);
+            var combinations = numbers.Skip(index).Take(newIndex).Select(x => new NumberCombination(x));
+            result.Add(new TeamLotteryNumbers(team.Team, combinations.ToArray()));
+            index = index + newIndex - 1;
+        }
+
+        return result;
     }
 
-    private static IEnumerable<int[]> GetNumberCombinations()
+    public NumberCombination GetWinningNumbers()
     {
+        var random = new Random();
+
+        return new NumberCombination(new int[]
+        {
+            random.Next(LowestNumber, HighestNumber),
+            random.Next(LowestNumber, HighestNumber),
+            random.Next(LowestNumber, HighestNumber),
+            random.Next(LowestNumber, HighestNumber),
+        });
+    }
+
+    private static List<int[]> GetNumberCombinations()
+    {
+        var returnList = new List<int[]>();
         var result = new int[NumbersByCombination];
         var stack = new Stack<int>();
         stack.Push(1);
 
         while (stack.Count > 0)
         {
+            
             var index = stack.Count - 1;
             var value = stack.Pop();
 
@@ -42,10 +69,27 @@ public class NumberRandomizerService
                 stack.Push(value);
                 if (index == NumbersByCombination)
                 {
-                    yield return result;
+                    var addedArray = new int[NumbersByCombination];
+                    result.CopyTo(addedArray, 0);
+                    returnList.Add(addedArray);
                     break;
                 }
             }
+        }
+
+        return returnList;
+    }
+
+    private static void Shuffle<T>(List<T> array)
+    {
+        var random = new Random();
+        int n = array.Count;
+        while (n > 1)
+        {
+            int k = random.Next(n--);
+            T temp = array[n];
+            array[n] = array[k];
+            array[k] = temp;
         }
     }
 }
