@@ -1,1 +1,1 @@
-# NHLLotterySimlulator
+# NHLLotterySimulator
