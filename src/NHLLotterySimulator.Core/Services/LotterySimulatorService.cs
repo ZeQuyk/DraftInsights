@@ -51,7 +51,6 @@ public class LotterySimulatorService
             teamNumbers.RemoveAll(n => n.HasNumberCombination(winningCombination));
         }
 
-
         return winners;
     }
 }
