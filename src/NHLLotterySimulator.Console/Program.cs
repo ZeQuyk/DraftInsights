@@ -21,26 +21,9 @@ var teamOdds = new List<TeamOdds>
     new TeamOdds("Calgary", 0.005M),
 };
 
-var totalOdds = teamOdds.Sum(x => x.Odds);
-var service = new NumberRandomizerService();
-var teamNumbers = service.AssignNumbers(teamOdds);
-var winningCombination = service.GetWinningNumbers();
-
-Console.WriteLine($"Winning combination is {string.Join("-", winningCombination.Numbers)}");
-
-var winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));
-while(winningTeam == null)
+var service = new LotterySimulatorService();
+var winners = service.GetWinners();
+foreach (var winningTeam in winners)
 {
-    winningCombination = service.GetWinningNumbers();
-    winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));
-}
-
-Console.WriteLine($"{winningTeam.Team} wins the lottery!");
-foreach (var numbers in winningTeam.NumberCombinations)
-{
-    if (numbers.Equals(winningCombination))
-    {
-        Console.Write("Winning combination: \t"); 
-        Console.WriteLine(string.Join("-", numbers.Numbers));
-    }
+    Console.WriteLine($"{winningTeam.Team} wins the lottery!");
 }
