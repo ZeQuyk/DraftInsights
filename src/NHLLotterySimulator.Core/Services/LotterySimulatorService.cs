@@ -3,11 +3,12 @@
 namespace NHLLotterySimulator.Core.Services;
 
 public class LotterySimulatorService
-{   
+{
+    private const int MaximumJump = 10;
     public const int PicksSimulated = 2;
 
     private readonly NumberRandomizerService _randomizerService;    
-    private readonly List<TeamOdds> _teamOdds = new List<TeamOdds>
+    private readonly List<TeamOdds> _teamOdds = new()
     {
         new TeamOdds("Anaheim", 0.185M),
         new TeamOdds("Columbus", 0.135M),
@@ -32,7 +33,40 @@ public class LotterySimulatorService
         _randomizerService = new NumberRandomizerService();
     }
 
-    public List<TeamLotteryNumbers> GetWinners()
+    public List<(int position, string team)> ComputeDraftOrder()
+    {
+        var winners = ComputeLottery();
+        var order = new List<(int position, string team)>();
+        var picks = Enumerable.Range(1, _teamOdds.Count).ToList();
+        foreach (var winner in winners)
+        {
+            var initialPosition = _teamOdds.IndexOf(_teamOdds.First(t => t.Team.Equals(winner.Team, StringComparison.InvariantCultureIgnoreCase))) + 1;
+            var newPosition = winners.IndexOf(winner) + 1;
+            if (initialPosition > MaximumJump + 1)
+            {
+                newPosition = initialPosition - MaximumJump;
+            }
+
+            order.Add(new(newPosition, winner.Team));
+            picks.Remove(newPosition);
+        }
+
+        foreach (var team in _teamOdds)
+        {
+            if (winners.Any(w => w.Team.Equals(team.Team, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                continue;
+            }
+
+            var pick = picks.First();
+            order.Add(new (pick, team.Team));
+            picks.Remove(pick);
+        }
+
+        return order.OrderBy(t => t.position).ToList();
+    }
+
+    private List<TeamLotteryNumbers> ComputeLottery()
     {
         var winners = new List<TeamLotteryNumbers>();
         var teamNumbers = _randomizerService.AssignNumbers(_teamOdds);
