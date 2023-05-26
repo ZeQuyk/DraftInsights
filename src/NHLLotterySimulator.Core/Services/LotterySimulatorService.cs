@@ -36,34 +36,8 @@ public class LotterySimulatorService
     public List<DraftPosition> ComputeDraftOrder()
     {
         var winners = ComputeLottery();
-        var order = new List<DraftPosition>();
-        var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
-        foreach (var winner in winners)
-        {
-            var initialPosition = _teamOdds.IndexOf(_teamOdds.First(t => t.Team.Equals(winner.Team, StringComparison.InvariantCultureIgnoreCase))) + 1;
-            var newPosition = winners.IndexOf(winner) + 1;
-            if (initialPosition > MaximumJump + 1)
-            {
-                newPosition = initialPosition - MaximumJump;
-            }
-
-            order.Add(new(newPosition, winner.Team));
-            remainingPicks.Remove(newPosition);
-        }
-
-        foreach (var team in _teamOdds)
-        {
-            if (winners.Any(w => w.Team.Equals(team.Team, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                continue;
-            }
-
-            var pick = remainingPicks.First();
-            order.Add(new (pick, team.Team));
-            remainingPicks.Remove(pick);
-        }
-
-        return order.OrderBy(t => t.Position).ToList();
+        
+        return GenerateDraftPositions(winners).OrderBy(t => t.Position).ToList();
     }
 
     private List<TeamLotteryNumbers> ComputeLottery()
@@ -86,5 +60,39 @@ public class LotterySimulatorService
         }
 
         return winners;
+    }
+
+    private List<DraftPosition> GenerateDraftPositions(List<TeamLotteryNumbers> winners) 
+    {
+        var positions = new List<DraftPosition>();
+        var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
+
+        // Winning teams move up, the rest move down accordingly
+        foreach (var winner in winners)
+        {
+            var initialPosition = _teamOdds.IndexOf(_teamOdds.First(t => t.Team.Equals(winner.Team, StringComparison.InvariantCultureIgnoreCase))) + 1;
+            var newPosition = winners.IndexOf(winner) + 1;
+            if (initialPosition > MaximumJump + 1)
+            {
+                newPosition = initialPosition - MaximumJump;
+            }
+
+            positions.Add(new(newPosition, winner.Team));
+            remainingPicks.Remove(newPosition);
+        }
+
+        foreach (var team in _teamOdds)
+        {
+            if (winners.Any(w => w.Team.Equals(team.Team, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                continue;
+            }
+
+            var pick = remainingPicks.First();
+            positions.Add(new(pick, team.Team));
+            remainingPicks.Remove(pick);
+        }
+
+        return positions;
     }
 }
