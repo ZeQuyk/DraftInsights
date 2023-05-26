@@ -73,11 +73,11 @@ public class LotterySimulatorService
 
         for (int i = 0; i < PicksSimulated; i++)
         {
-            var winningCombination = _randomizerService.GetWinningNumbers();
+            var winningCombination = _randomizerService.DrawWinningCombination();
             var winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));
             while (winningTeam == null)
             {
-                winningCombination = _randomizerService.GetWinningNumbers();
+                winningCombination = _randomizerService.DrawWinningCombination();
                 winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));
             }
 

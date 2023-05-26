@@ -16,7 +16,7 @@ public class NumberRandomizerService
             Why 14? Because there are 1,001 different four-digit number combinations between 1 and 14, and the league needs 1,000 different possible numbers to conduct its lottery.
             One of the 1,001 number combinations is chosen at random and is removed from the pool of possible numbers, leaving the process with an even 1,000 numbers.
          */
-        var numbers = GetNumberCombinations();
+        var numbers = InitializeNumberCombinations();
         Shuffle(numbers);
         if (numbers.Count % 2 == 1)
         {
@@ -37,7 +37,7 @@ public class NumberRandomizerService
         return result;
     }
 
-    public NumberCombination GetWinningNumbers()
+    public NumberCombination DrawWinningCombination()
     {
         var random = new Random();
         var numbers = new List<int>();
@@ -49,7 +49,7 @@ public class NumberRandomizerService
         return new NumberCombination(numbers.ToArray());
     }
 
-    private static List<int[]> GetNumberCombinations()
+    private static List<int[]> InitializeNumberCombinations()
     {
         var returnList = new List<int[]>();
         var result = new int[NumbersByCombination];
