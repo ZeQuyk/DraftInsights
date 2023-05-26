@@ -37,7 +37,7 @@ public class LotterySimulatorService
     {
         var winners = ComputeLottery();
         var order = new List<(int position, string team)>();
-        var picks = Enumerable.Range(1, _teamOdds.Count).ToList();
+        var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
         foreach (var winner in winners)
         {
             var initialPosition = _teamOdds.IndexOf(_teamOdds.First(t => t.Team.Equals(winner.Team, StringComparison.InvariantCultureIgnoreCase))) + 1;
@@ -48,7 +48,7 @@ public class LotterySimulatorService
             }
 
             order.Add(new(newPosition, winner.Team));
-            picks.Remove(newPosition);
+            remainingPicks.Remove(newPosition);
         }
 
         foreach (var team in _teamOdds)
@@ -58,9 +58,9 @@ public class LotterySimulatorService
                 continue;
             }
 
-            var pick = picks.First();
+            var pick = remainingPicks.First();
             order.Add(new (pick, team.Team));
-            picks.Remove(pick);
+            remainingPicks.Remove(pick);
         }
 
         return order.OrderBy(t => t.position).ToList();
