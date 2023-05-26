@@ -33,10 +33,10 @@ public class LotterySimulatorService
         _randomizerService = new NumberRandomizerService();
     }
 
-    public List<(int position, string team)> ComputeDraftOrder()
+    public List<DraftPosition> ComputeDraftOrder()
     {
         var winners = ComputeLottery();
-        var order = new List<(int position, string team)>();
+        var order = new List<DraftPosition>();
         var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
         foreach (var winner in winners)
         {
@@ -63,7 +63,7 @@ public class LotterySimulatorService
             remainingPicks.Remove(pick);
         }
 
-        return order.OrderBy(t => t.position).ToList();
+        return order.OrderBy(t => t.Position).ToList();
     }
 
     private List<TeamLotteryNumbers> ComputeLottery()
