@@ -11,13 +11,10 @@ namespace NHLLotterySimulator.NHLApi.Serialization
 
         private static JsonSerializerOptions GetSerializerOptions()
         {
-            if (_serializerOptions == null)
-            {
-                _serializerOptions = new JsonSerializerOptions
+            _serializerOptions ??= new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true,
                 };
-            }
 
             return _serializerOptions;
         }
