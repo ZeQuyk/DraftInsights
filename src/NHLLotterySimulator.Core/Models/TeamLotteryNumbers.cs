@@ -2,13 +2,13 @@
 
 public class TeamLotteryNumbers
 {
-    public TeamLotteryNumbers(string team, NumberCombination[] numberCombinations)
+    public TeamLotteryNumbers(int leagueRank, NumberCombination[] numberCombinations)
     {
-        Team = team;
+        LeagueRank = leagueRank;
         NumberCombinations = numberCombinations;
     }
 
-    public string Team { get; set; }
+    public int LeagueRank { get; set; }
 
     public NumberCombination[] NumberCombinations { get; set; }
 

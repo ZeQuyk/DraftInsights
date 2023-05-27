@@ -30,7 +30,7 @@ public class NumberRandomizerService
         {
             var newIndex = (int)Math.Floor(team.Odds * count);
             var combinations = numbers.Skip(index).Take(newIndex).Select(x => new NumberCombination(x));
-            result.Add(new TeamLotteryNumbers(team.Team, combinations.ToArray()));
+            result.Add(new TeamLotteryNumbers(team.LeagueRank, combinations.ToArray()));
             index = index + newIndex - 1;
         }
 

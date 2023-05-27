@@ -2,13 +2,13 @@
 
 public class TeamOdds
 {
-    public TeamOdds(string team, decimal odds)
+    public TeamOdds(int leagueRank, decimal odds)
     {
-        Team = team;
+        LeagueRank = leagueRank;
         Odds = odds;
     }
 
-    public string Team { get; set; }
+    public int LeagueRank { get; set; }
 
     public decimal Odds { get; set; }
 }
