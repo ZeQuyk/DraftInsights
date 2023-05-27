@@ -1,0 +1,25 @@
+﻿using System.Text.Json;
+
+namespace NHLLotterySimulator.NHLApi.Serialization
+{
+    internal static class JsonSerializer
+    {
+        private static JsonSerializerOptions? _serializerOptions;
+
+        public static T? Deserialize<T>(string json)
+            => System.Text.Json.JsonSerializer.Deserialize<T>(json, GetSerializerOptions());
+
+        private static JsonSerializerOptions GetSerializerOptions()
+        {
+            if (_serializerOptions == null)
+            {
+                _serializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+            }
+
+            return _serializerOptions;
+        }
+    }
+}

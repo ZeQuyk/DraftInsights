@@ -1,11 +1,10 @@
-﻿using System.Text.Json;
-using NHLLotterySimulator.NHLApi.Models;
+﻿using NHLLotterySimulator.NHLApi.Models;
+using NHLLotterySimulator.NHLApi.Serialization;
 
 namespace NHLLotterySimulator.NHLApi.Services;
 
 public class StandingsService
 {
-    private JsonSerializerOptions? _serializerOptions;
     private readonly HttpClient _httpClient;
 
     public StandingsService()
@@ -24,26 +23,13 @@ public class StandingsService
             throw new Exception("Invalid response");
         }
 
-        var res = await response.Content.ReadAsStringAsync();
-        var standings = JsonSerializer.Deserialize<StandingsResponse>(res, GetSerializerOptions());
+        var json = await response.Content.ReadAsStringAsync();
+        var standings = JsonSerializer.Deserialize<StandingsResponse>(json);
         if (standings == null)
         {
             throw new Exception("response is null");
         }
 
         return standings;
-    }
-
-    private JsonSerializerOptions GetSerializerOptions()
-    {
-        if (_serializerOptions == null)
-        {
-            _serializerOptions = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-            };
-        }
-
-        return _serializerOptions;
     }
 }
