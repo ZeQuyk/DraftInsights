@@ -10,4 +10,6 @@ public class LeagueRecord
 
     [JsonPropertyName("ot")]
     public int OvertimeLosses { get; set; }
+
+    public override string ToString() => $"{Wins}-{Losses}-{OvertimeLosses}";
 }
