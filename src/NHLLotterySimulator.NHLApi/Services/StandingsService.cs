@@ -17,7 +17,7 @@ public class StandingsService
 
     public async Task<StandingsResponse> GetStandingsAsync()
     {
-        var response = await _httpClient.GetAsync("api/v1/standings/byLeague");
+        using var response = await _httpClient.GetAsync("api/v1/standings/byLeague");
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception("Invalid response");
