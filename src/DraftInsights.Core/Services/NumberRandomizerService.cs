@@ -1,6 +1,6 @@
-﻿using NHLLotterySimulator.Core.Models;
+﻿using DraftInsights.Core.Models;
 
-namespace NHLLotterySimulator.Core.Services;
+namespace DraftInsights.Core.Services;
 
 public class NumberRandomizerService
 {

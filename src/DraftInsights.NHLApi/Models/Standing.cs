@@ -1,4 +1,4 @@
-﻿namespace NHLLotterySimulator.NHLApi.Models;
+﻿namespace DraftInsights.NHLApi.Models;
 
 public class Standing
 {

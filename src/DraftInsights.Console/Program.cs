@@ -1,4 +1,4 @@
-﻿using NHLLotterySimulator.Core.Services;
+﻿using DraftInsights.Core.Services;
 
 var service = new LotterySimulatorService();
 var teams = await service.ComputeDraftOrderAsync();

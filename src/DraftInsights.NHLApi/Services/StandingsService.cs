@@ -1,7 +1,7 @@
-﻿using NHLLotterySimulator.NHLApi.Models;
-using NHLLotterySimulator.NHLApi.Serialization;
+﻿using DraftInsights.NHLApi.Models;
+using DraftInsights.NHLApi.Serialization;
 
-namespace NHLLotterySimulator.NHLApi.Services;
+namespace DraftInsights.NHLApi.Services;
 
 public class StandingsService
 {

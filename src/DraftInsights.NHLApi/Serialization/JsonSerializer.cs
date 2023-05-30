@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace NHLLotterySimulator.NHLApi.Serialization
+namespace DraftInsights.NHLApi.Serialization
 {
     internal static class JsonSerializer
     {

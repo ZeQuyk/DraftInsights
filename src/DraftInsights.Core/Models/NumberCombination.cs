@@ -1,4 +1,4 @@
-﻿namespace NHLLotterySimulator.Core.Models;
+﻿namespace DraftInsights.Core.Models;
 
 public class NumberCombination
 {

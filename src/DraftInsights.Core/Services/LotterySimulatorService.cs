@@ -1,8 +1,8 @@
-﻿using NHLLotterySimulator.Core.Models;
-using NHLLotterySimulator.NHLApi.Models;
-using NHLLotterySimulator.NHLApi.Services;
+﻿using DraftInsights.Core.Models;
+using DraftInsights.NHLApi.Models;
+using DraftInsights.NHLApi.Services;
 
-namespace NHLLotterySimulator.Core.Services;
+namespace DraftInsights.Core.Services;
 
 public class LotterySimulatorService
 {
