@@ -2,6 +2,7 @@
 
 namespace DraftInsights.Core.Models;
 
-public record DraftPosition(int Position, TeamRecord TeamRecord)
+public record DraftPosition(int Position, int InitialPosition, TeamRecord TeamRecord)
 {
+    public int PositionDifference => (Position * -1) + InitialPosition;
 }
