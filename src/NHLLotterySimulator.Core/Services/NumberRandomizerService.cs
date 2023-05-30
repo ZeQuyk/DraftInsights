@@ -58,7 +58,7 @@ public class NumberRandomizerService
 
         while (stack.Count > 0)
         {
-            
+
             var index = stack.Count - 1;
             var value = stack.Pop();
 

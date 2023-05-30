@@ -9,7 +9,7 @@ public class LotterySimulatorService
     private const int MaximumJump = 10;
     public const int PicksSimulated = 2;
 
-    private readonly NumberRandomizerService _randomizerService; 
+    private readonly NumberRandomizerService _randomizerService;
     private readonly StandingsService _standingsService;
     private readonly List<TeamOdds> _teamOdds = new()
     {
@@ -41,7 +41,7 @@ public class LotterySimulatorService
     {
         var standings = await _standingsService.GetStandingsAsync();
         var winners = ComputeLottery();
-        
+
         return GenerateDraftPositions(winners, standings.NhlStandings).OrderBy(t => t.Position).ToList();
     }
 
@@ -67,7 +67,7 @@ public class LotterySimulatorService
         return winners;
     }
 
-    private List<DraftPosition> GenerateDraftPositions(List<TeamLotteryNumbers> winners, Standing standings) 
+    private List<DraftPosition> GenerateDraftPositions(List<TeamLotteryNumbers> winners, Standing standings)
     {
         var positions = new List<DraftPosition>();
         var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
