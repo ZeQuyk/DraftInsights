@@ -1,1 +1,1 @@
-# NHLLotterySimulator
+# DraftInsights
