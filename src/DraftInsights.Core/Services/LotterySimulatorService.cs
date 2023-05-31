@@ -91,7 +91,7 @@ public class LotterySimulatorService : ILotterySimulatorService
                 newPosition = initialPosition - MaximumJump;
             }
 
-            positions.Add(new(newPosition, initialPosition, team));
+            positions.Add(new(newPosition, initialPosition, team, winner.Odds));
             remainingPicks.Remove(newPosition);
         }
 
@@ -105,7 +105,7 @@ public class LotterySimulatorService : ILotterySimulatorService
             var teamRecord = standings.FindTeamRecord(team.LeagueRank);
             var initialPosition = lastPosition - teamRecord.LeagueRank + 1;
             var pick = remainingPicks.First();
-            positions.Add(new(pick, initialPosition, teamRecord));
+            positions.Add(new(pick, initialPosition, teamRecord, team.Odds));
             remainingPicks.Remove(pick);
         }
 
