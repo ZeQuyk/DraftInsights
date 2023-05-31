@@ -10,7 +10,7 @@ public class LotterySimulatorService : ILotterySimulatorService
     public const int PicksSimulated = 2;
 
     private readonly NumberRandomizerService _randomizerService;
-    private readonly StandingsService _standingsService;
+    private readonly NHLService _nhlService;
     private readonly List<TeamOdds> _teamOdds = new()
     {
         new TeamOdds(32, 0.185M),
@@ -34,19 +34,19 @@ public class LotterySimulatorService : ILotterySimulatorService
     public LotterySimulatorService()
     {
         _randomizerService = new NumberRandomizerService();
-        _standingsService = new StandingsService();
+        _nhlService = new NHLService();
     }
 
     public async Task<List<DraftPosition>> GetInitialDraftOrderAsync()
     {
-        var standings = await _standingsService.GetStandingsAsync();
+        var standings = await _nhlService.GetStandingsAsync();
 
         return GenerateDraftPositions(new List<TeamLotteryNumbers>(), standings.NhlStandings).OrderBy(t => t.Position).ToList();
     }
 
     public async Task<List<DraftPosition>> ComputeDraftOrderAsync()
     {
-        var standings = await _standingsService.GetStandingsAsync();
+        var standings = await _nhlService.GetStandingsAsync();
         var winners = ComputeLottery();
 
         return GenerateDraftPositions(winners, standings.NhlStandings).OrderBy(t => t.Position).ToList();

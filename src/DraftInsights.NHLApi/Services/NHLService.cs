@@ -3,11 +3,11 @@ using DraftInsights.NHLApi.Serialization;
 
 namespace DraftInsights.NHLApi.Services;
 
-public class StandingsService
+public class NHLService
 {
     private readonly HttpClient _httpClient;
 
-    public StandingsService()
+    public NHLService()
     {
         _httpClient = new HttpClient
         {

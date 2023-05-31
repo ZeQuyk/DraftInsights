@@ -35,7 +35,10 @@
                 </MudItem>               
             </MudGrid>           
         </MudTd>
-        <MudTd>@context.TeamRecord.Team!.Name</MudTd>
+        <MudTd>
+            <MudImage Src="@context.TeamRecord.Team!.LogoUrl" Height="30" Width="30" Style="vertical-align: middle; display: inline-block;"></MudImage>
+            @context.TeamRecord.Team!.Name       
+        </MudTd>
         <MudTd>@context.TeamRecord.LeagueRecord!.ToString()</MudTd>
         <MudTd>@((context.Odds * 100).ToString("0.0"))%</MudTd>
     </RowTemplate>
