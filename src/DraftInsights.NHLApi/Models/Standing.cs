@@ -8,7 +8,4 @@ public class Standing
     }
 
     public List<TeamRecord> TeamRecords { get; set; }
-
-    public TeamRecord FindTeamRecord(int leagueRank)
-        => TeamRecords.First(t => t.LeagueRank == leagueRank);
 }

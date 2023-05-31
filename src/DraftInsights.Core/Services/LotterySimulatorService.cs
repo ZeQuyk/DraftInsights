@@ -1,5 +1,4 @@
 ﻿using DraftInsights.Core.Models;
-using DraftInsights.NHLApi.Models;
 using DraftInsights.NHLApi.Services;
 
 namespace DraftInsights.Core.Services;
@@ -39,17 +38,24 @@ public class LotterySimulatorService : ILotterySimulatorService
 
     public async Task<List<DraftPosition>> GetInitialDraftOrderAsync()
     {
-        var standings = await _nhlService.GetStandingsAsync();
+        var standings = await GetOrderedStandingAsync();
 
-        return GenerateDraftPositions(new List<TeamLotteryNumbers>(), standings.NhlStandings).OrderBy(t => t.Position).ToList();
+        return GenerateDraftPositions(new List<TeamLotteryNumbers>(), standings).OrderBy(t => t.Position).ToList();
     }
 
     public async Task<List<DraftPosition>> ComputeDraftOrderAsync()
     {
-        var standings = await _nhlService.GetStandingsAsync();
+        var standings = await GetOrderedStandingAsync();
         var winners = ComputeLottery();
 
-        return GenerateDraftPositions(winners, standings.NhlStandings).OrderBy(t => t.Position).ToList();
+        return GenerateDraftPositions(winners, standings).OrderBy(t => t.Position).ToList();
+    }
+
+    private async Task<LotteryStanding> GetOrderedStandingAsync()
+    {
+        var standings = await _nhlService.GetStandingsAsync();
+
+        return new LotteryStanding(standings.NhlStandings);
     }
 
     private List<TeamLotteryNumbers> ComputeLottery()
@@ -74,7 +80,7 @@ public class LotterySimulatorService : ILotterySimulatorService
         return winners;
     }
 
-    private List<DraftPosition> GenerateDraftPositions(List<TeamLotteryNumbers> winners, Standing standings)
+    private List<DraftPosition> GenerateDraftPositions(List<TeamLotteryNumbers> winners, LotteryStanding standings)
     {
         var positions = new List<DraftPosition>();
         var remainingPicks = Enumerable.Range(1, _teamOdds.Count).ToList();
@@ -103,7 +109,7 @@ public class LotterySimulatorService : ILotterySimulatorService
             }
 
             var teamRecord = standings.FindTeamRecord(team.LeagueRank);
-            var initialPosition = lastPosition - teamRecord.LeagueRank + 1;
+            var initialPosition = lastPosition - team.LeagueRank + 1;
             var pick = remainingPicks.First();
             positions.Add(new(pick, initialPosition, teamRecord, team.Odds));
             remainingPicks.Remove(pick);

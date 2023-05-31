@@ -10,4 +10,8 @@ public class TeamRecord
 
     [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public int LeagueRank { get; set; }
+
+    public string? ClinchIndicator { get; set; }
+
+    public bool IsPlayoffTeam() => !string.IsNullOrWhiteSpace(ClinchIndicator);
 }
