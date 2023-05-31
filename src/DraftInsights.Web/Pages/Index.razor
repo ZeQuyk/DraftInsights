@@ -1,7 +1,61 @@
 ﻿@page "/"
+@using DraftInsights.Core.Models;
 
-<PageTitle>Index</PageTitle>
+@inject DraftInsights.Core.Services.ILotterySimulatorService LotteryService;
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+<PageTitle>Draft lottery simulator</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Draft lottery simulator</MudText>
+<MudButton OnClick="SimulateDraftAsync">Simulate</MudButton>
+<MudButton OnClick="ResetDraftAsync">Reset</MudButton>
+<MudTable Items="@draftPositions" T="DraftPosition">
+    <HeaderContent>
+        <MudTh>Position</MudTh>
+        <MudTh>Team</MudTh>
+        <MudTh>Record</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            <MudGrid>
+                <MudItem xs="6">
+                    <MudText>
+                        @context.Position
+                    </MudText>
+                </MudItem>
+                <MudItem xs="6">
+                    @if (context.PositionDifference > 0)
+                    {
+                        <MudText Color="Color.Success">+@context.PositionDifference</MudText>
+                    }
+                    else if (context.PositionDifference < 0)
+                    {
+                        <MudText Color="Color.Error">@context.PositionDifference</MudText>
+                    }
+                </MudItem>               
+            </MudGrid>           
+        </MudTd>
+        <MudTd>@context.TeamRecord.Team!.Name</MudTd>
+        <MudTd>@context.TeamRecord.LeagueRecord!.ToString()</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<DraftPosition> draftPositions = new List<DraftPosition>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        await ResetDraftAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task SimulateDraftAsync()
+    {
+        draftPositions = await LotteryService.ComputeDraftOrderAsync();
+    }
+
+    private async Task ResetDraftAsync()
+    {
+        draftPositions = await LotteryService.GetInitialDraftOrderAsync();
+    }
+}

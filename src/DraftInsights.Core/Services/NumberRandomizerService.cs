@@ -2,7 +2,7 @@
 
 namespace DraftInsights.Core.Services;
 
-public class NumberRandomizerService
+public class NumberRandomizerService : INumberRandomizerService
 {
     private const int LowestNumber = 1;
     private const int HighestNumber = 14;

@@ -1,16 +1,19 @@
+using DraftInsights.Core.Services;
 using DraftInsights.Web.Data;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var services = builder.Services;
 StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
-builder.Services.AddMudServices();
+services.AddRazorPages();
+services.AddServerSideBlazor();
+services.AddSingleton<WeatherForecastService, WeatherForecastService>();
+services.AddScoped<INumberRandomizerService, NumberRandomizerService>();
+services.AddScoped<ILotterySimulatorService, LotterySimulatorService>();
+services.AddMudServices();
 
 var app = builder.Build();
 

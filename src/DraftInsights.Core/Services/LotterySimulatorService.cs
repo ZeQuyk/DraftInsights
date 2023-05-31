@@ -4,7 +4,7 @@ using DraftInsights.NHLApi.Services;
 
 namespace DraftInsights.Core.Services;
 
-public class LotterySimulatorService
+public class LotterySimulatorService : ILotterySimulatorService
 {
     private const int MaximumJump = 10;
     public const int PicksSimulated = 2;
@@ -35,6 +35,13 @@ public class LotterySimulatorService
     {
         _randomizerService = new NumberRandomizerService();
         _standingsService = new StandingsService();
+    }
+
+    public async Task<List<DraftPosition>> GetInitialDraftOrderAsync()
+    {
+        var standings = await _standingsService.GetStandingsAsync();
+
+        return GenerateDraftPositions(new List<TeamLotteryNumbers>(), standings.NhlStandings).OrderBy(t => t.Position).ToList();
     }
 
     public async Task<List<DraftPosition>> ComputeDraftOrderAsync()
