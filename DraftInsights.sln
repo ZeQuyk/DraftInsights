@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraftInsights.Web", "src\DraftInsights.Web\DraftInsights.Web.csproj", "{4B0C1F70-3810-492E-86E6-EA1F0C38439C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{73D9FA86-FF78-466B-AA74-46D08916E430}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73D9FA86-FF78-466B-AA74-46D08916E430}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73D9FA86-FF78-466B-AA74-46D08916E430}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B0C1F70-3810-492E-86E6-EA1F0C38439C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B0C1F70-3810-492E-86E6-EA1F0C38439C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B0C1F70-3810-492E-86E6-EA1F0C38439C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B0C1F70-3810-492E-86E6-EA1F0C38439C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
