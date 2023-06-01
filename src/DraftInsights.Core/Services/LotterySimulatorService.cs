@@ -97,6 +97,11 @@ public class LotterySimulatorService : ILotterySimulatorService
                 newPosition = initialPosition - MaximumJump;
             }
 
+            while (!remainingPicks.Any(p => p == newPosition))
+            {
+                newPosition++;
+            }
+
             positions.Add(new(newPosition, initialPosition, team, winner.Odds));
             remainingPicks.Remove(newPosition);
         }
