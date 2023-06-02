@@ -91,19 +91,19 @@ public class LotterySimulatorService : ILotterySimulatorService
         {
             var team = standings.FindTeamRecord(winner.LeagueRank);
             var initialPosition = lastPosition - winner.LeagueRank + 1;
-            var newPosition = winners.IndexOf(winner) + 1;
+            var awardedPick = winners.IndexOf(winner) + 1;
             if (initialPosition > MaximumJump + 1)
             {
-                newPosition = initialPosition - MaximumJump;
+                awardedPick = initialPosition - MaximumJump;
             }
 
-            while (!remainingPicks.Any(p => p == newPosition))
+            while (!remainingPicks.Any(p => p == awardedPick))
             {
-                newPosition++;
+                awardedPick++;
             }
 
-            positions.Add(new(newPosition, initialPosition, team, winner.Odds));
-            remainingPicks.Remove(newPosition);
+            positions.Add(new(awardedPick, initialPosition, team, winner.Odds));
+            remainingPicks.Remove(awardedPick);
         }
 
         foreach (var team in _teamOdds)
