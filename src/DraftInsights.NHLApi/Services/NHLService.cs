@@ -1,35 +1,22 @@
-﻿using DraftInsights.NHLApi.Models;
-using DraftInsights.NHLApi.Serialization;
+﻿using DraftInsights.NHLApi.Clients;
+using DraftInsights.NHLApi.Models;
 
 namespace DraftInsights.NHLApi.Services;
 
-public class NHLService
+public class NHLService : INHLService
 {
-    private readonly HttpClient _httpClient;
+    private readonly INhlStatsClient _nhlStatsClient;
+    private readonly INhlRecordsClient _nhlRecordsClient;
 
-    public NHLService()
+    public NHLService(INhlStatsClient nhlStatsClient, INhlRecordsClient nhlRecordsClient)
     {
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri("https://statsapi.web.nhl.com/"),
-        };
+        _nhlStatsClient = nhlStatsClient;
+        _nhlRecordsClient = nhlRecordsClient;
     }
 
-    public async Task<StandingsResponse> GetStandingsAsync()
-    {
-        using var response = await _httpClient.GetAsync("api/v1/standings/byLeague");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception("Invalid response");
-        }
+    public Task<StandingsResponse> GetStandingsAsync()
+        => _nhlStatsClient.GetStandingsAsync();
 
-        var json = await response.Content.ReadAsStringAsync();
-        var standings = JsonSerializer.Deserialize<StandingsResponse>(json);
-        if (standings == null)
-        {
-            throw new Exception("response is null");
-        }
-
-        return standings;
-    }
+    public Task<NhlDraftResponse?> GetDraftAsync(int year)
+        => _nhlRecordsClient.GetDraftAsync(year);
 }

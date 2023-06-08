@@ -1,0 +1,40 @@
+﻿@page "/draft"
+@using DraftInsights.NHLApi.Models;
+@inject DraftInsights.NHLApi.Services.INHLService NhlService;
+
+<PageTitle>NHL Draft</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">NHL draft</MudText>
+<MudTable Items="@draftPicks" T="DraftPick" Breakpoint="Breakpoint.None" Dense>
+    <HeaderContent>
+        <MudTh>Round</MudTh>
+        <MudTh>Pick #</MudTh>
+        <MudTh>Drafted By</MudTh>
+        <MudTh>Player</MudTh>
+        <MudTh>Position</MudTh>
+        <MudTh>Amateur Team</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd><MudText>@context.OverallPickNumber</MudText></MudTd>
+        <MudTd><MudText>@context.RoundNumber</MudText></MudTd>
+        <MudTd><MudText>@context.TriCode</MudText></MudTd>
+        <MudTd><MudText>@context.PlayerName</MudText></MudTd>
+        <MudTd><MudText>@context.Position</MudText></MudTd>
+        <MudTd><MudText>@context.AmateurClubName (@context.AmateurLeague)</MudText></MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<DraftPick> draftPicks = new List<DraftPick>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var draft = await NhlService.GetDraftAsync(2022);
+        if (draft == null)
+        {
+            return;
+        }
+
+        draftPicks = draft.Picks;
+    }
+}

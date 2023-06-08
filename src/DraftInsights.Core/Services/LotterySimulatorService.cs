@@ -8,8 +8,8 @@ public class LotterySimulatorService : ILotterySimulatorService
     private const int MaximumJump = 10;
     public const int PicksSimulated = 2;
 
-    private readonly NumberRandomizerService _randomizerService;
-    private readonly NHLService _nhlService;
+    private readonly INumberRandomizerService _randomizerService;
+    private readonly INHLService _nhlService;
     private readonly List<TeamOdds> _teamOdds = new()
     {
         new TeamOdds(32, 0.185M),
@@ -30,10 +30,10 @@ public class LotterySimulatorService : ILotterySimulatorService
         new TeamOdds(17, 0.005M),
     };
 
-    public LotterySimulatorService()
+    public LotterySimulatorService(INumberRandomizerService randomizerService, INHLService nhlService)
     {
-        _randomizerService = new NumberRandomizerService();
-        _nhlService = new NHLService();
+        _randomizerService = randomizerService;
+        _nhlService = nhlService;
     }
 
     public async Task<List<DraftPosition>> GetInitialDraftOrderAsync()

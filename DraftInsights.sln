@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftInsights.Console", "src\DraftInsights.Console\DraftInsights.Console.csproj", "{972B1B83-1EAC-41F0-B842-C3626F78AEB0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftInsights.Core", "src\DraftInsights.Core\DraftInsights.Core.csproj", "{F089627A-777E-4F5C-A333-35EC11F89E7E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftInsights.NHLApi", "src\DraftInsights.NHLApi\DraftInsights.NHLApi.csproj", "{73D9FA86-FF78-466B-AA74-46D08916E430}"
@@ -16,7 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DraftInsights.Web", "src\DraftInsights.Web\DraftInsights.Web.csproj", "{4B0C1F70-3810-492E-86E6-EA1F0C38439C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DraftInsights.Web", "src\DraftInsights.Web\DraftInsights.Web.csproj", "{4B0C1F70-3810-492E-86E6-EA1F0C38439C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{972B1B83-1EAC-41F0-B842-C3626F78AEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{972B1B83-1EAC-41F0-B842-C3626F78AEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{972B1B83-1EAC-41F0-B842-C3626F78AEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{972B1B83-1EAC-41F0-B842-C3626F78AEB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F089627A-777E-4F5C-A333-35EC11F89E7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F089627A-777E-4F5C-A333-35EC11F89E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F089627A-777E-4F5C-A333-35EC11F89E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU

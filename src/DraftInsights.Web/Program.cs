@@ -1,4 +1,5 @@
 using DraftInsights.Core.Services;
+using DraftInsights.NHLApi.Extensions;
 using Microsoft.AspNetCore.Hosting.StaticWebAssets;
 using MudBlazor.Services;
 
@@ -12,6 +13,8 @@ services.AddServerSideBlazor();
 services.AddScoped<INumberRandomizerService, NumberRandomizerService>();
 services.AddScoped<ILotterySimulatorService, LotterySimulatorService>();
 services.AddMudServices();
+services.AddNhlApi();
+services.AddHttpClient();
 
 var app = builder.Build();
 
