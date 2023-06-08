@@ -1,5 +1,6 @@
 ﻿@page "/draft"
 @using DraftInsights.NHLApi.Models;
+@using DraftInsights.Web.Components
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
 
 <PageTitle>NHL Draft</PageTitle>
@@ -15,9 +16,9 @@
         <MudTh>Amateur Team</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd><MudText>@context.OverallPickNumber</MudText></MudTd>
         <MudTd><MudText>@context.RoundNumber</MudText></MudTd>
-        <MudTd><MudText>@context.TriCode</MudText></MudTd>
+        <MudTd><MudText>@context.OverallPickNumber</MudText></MudTd>
+        <MudTd><MudText><NhlTeamLogo TeamId="@context.DraftedByTeamId"/> @context.TriCode</MudText></MudTd>
         <MudTd><MudText>@context.PlayerName</MudText></MudTd>
         <MudTd><MudText>@context.Position</MudText></MudTd>
         <MudTd><MudText>@context.AmateurClubName (@context.AmateurLeague)</MudText></MudTd>
@@ -36,5 +37,7 @@
         }
 
         draftPicks = draft.Picks;
+
+        await base.OnInitializedAsync();
     }
 }

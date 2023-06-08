@@ -5,6 +5,8 @@ namespace DraftInsights.NHLApi.Services;
 
 public class NHLService : INHLService
 {
+    private const string TeamLogoUrlBase = "https://www-league.nhlstatic.com/images/logos/teams-current-primary-dark";
+
     private readonly INhlStatsClient _nhlStatsClient;
     private readonly INhlRecordsClient _nhlRecordsClient;
 
@@ -19,4 +21,7 @@ public class NHLService : INHLService
 
     public Task<NhlDraftResponse?> GetDraftAsync(int year)
         => _nhlRecordsClient.GetDraftAsync(year);
+
+    public string GetTeamLogoUrl(int teamId)
+        => $"{TeamLogoUrlBase}/{teamId}.svg";
 }

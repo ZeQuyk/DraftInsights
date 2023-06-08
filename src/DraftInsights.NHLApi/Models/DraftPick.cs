@@ -16,7 +16,7 @@ public class DraftPick
 
     public string FirstName { get; set; } = string.Empty;
 
-    public int Height { get; set; }
+    public int? Height { get; set; }
 
     public string LastName { get; set; } = string.Empty;
 
@@ -26,7 +26,7 @@ public class DraftPick
 
     public int PickInRound { get; set; }
 
-    public int PlayerId { get; set; }
+    public int? PlayerId { get; set; }
 
     public string PlayerName { get; set; } = string.Empty;
 
@@ -42,5 +42,5 @@ public class DraftPick
 
     public string TriCode { get; set; } = string.Empty;
 
-    public int Weight { get; set; }
+    public int? Weight { get; set; }
 }

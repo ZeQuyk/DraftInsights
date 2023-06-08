@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using DraftInsights.Core.Models;
+@using DraftInsights.Web.Components
 
 @inject DraftInsights.Core.Services.ILotterySimulatorService LotteryService;
+@inject DraftInsights.NHLApi.Services.INHLService NhlService;
 
 <PageTitle>Draft lottery simulator</PageTitle>
 
@@ -38,7 +40,7 @@
             </MudGrid>           
         </MudTd>
         <MudTd>
-            <MudImage Src="@context.TeamRecord.Team!.LogoUrl" Height="30" Width="30" Style="vertical-align: middle; display: inline-block;"></MudImage>
+            <NhlTeamLogo TeamId="@context.TeamRecord.Team!.Id"/>
             @context.TeamRecord.Team!.Name       
         </MudTd>
         <MudTd>@((context.Odds * 100).ToString("0.0"))%</MudTd>

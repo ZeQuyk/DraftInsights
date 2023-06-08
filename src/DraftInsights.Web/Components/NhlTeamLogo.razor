@@ -1,0 +1,13 @@
+﻿@inject DraftInsights.NHLApi.Services.INHLService NhlService;
+
+<MudImage Src="@NhlService.GetTeamLogoUrl(TeamId)" Height="@Height" Width="@Width" Style="vertical-align: middle; display: inline-block;"></MudImage>
+@code {
+    [Parameter, EditorRequired]
+    public int TeamId { get; set; }
+
+    [Parameter]
+    public int Height { get; set; } = 30;
+
+    [Parameter]
+    public int Width { get; set; } = 30;
+}
