@@ -2,6 +2,8 @@
 
 public class DraftPick
 {
+    private string _pickOriginallyFrom = string.Empty;
+
     public int Id { get; set; }
 
     public string AmateurClubName { get; set; } = string.Empty;
@@ -43,4 +45,25 @@ public class DraftPick
     public string TriCode { get; set; } = string.Empty;
 
     public int? Weight { get; set; }
+
+    public string PickOriginallyFrom => GetPickOriginalTeam();
+
+    private string GetPickOriginalTeam()
+    {
+        if (!string.IsNullOrEmpty(_pickOriginallyFrom))
+        {
+            return _pickOriginallyFrom;
+        }
+
+        if (string.IsNullOrEmpty(TeamPickHistory))
+        {
+            _pickOriginallyFrom = TriCode;
+        }
+        else
+        {
+            _pickOriginallyFrom = TeamPickHistory.Split('-')[0];
+        }
+
+        return _pickOriginallyFrom;
+    }
 }

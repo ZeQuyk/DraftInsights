@@ -27,4 +27,23 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
 
         return standings;
     }
+
+    public async Task<PlayerStats?> GetPlayerStatsAsync(int playerId)
+    {
+        using var response = await HttpClient.GetAsync($"api/v1/people/{playerId}/stats?stats=careerRegularSeason");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Invalid response");
+        }
+
+        var json = await response.Content.ReadAsStringAsync();
+        var stats = JsonSerializer.Deserialize<PlayerStatsResponse?>(json);
+        if (stats == null)
+        {
+            return null;
+        }
+
+        return stats.Stats.FirstOrDefault()?.Splits.FirstOrDefault()?.Stat;
+    }
+
 }

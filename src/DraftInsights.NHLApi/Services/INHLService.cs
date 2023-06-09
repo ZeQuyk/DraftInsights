@@ -8,6 +8,8 @@ namespace DraftInsights.NHLApi.Services
 
         Task<NhlDraftResponse?> GetDraftAsync(int year);
 
+        Task<PlayerStats?> GetPlayersStatsAsync(int playerId);
+
         string GetTeamLogoUrl(int teamId);
     }
 }

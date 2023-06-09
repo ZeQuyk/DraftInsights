@@ -1,4 +1,5 @@
 ﻿@page "/draft"
+@using DraftInsights.Core.Models;
 @using DraftInsights.NHLApi.Models;
 @using DraftInsights.Web.Components
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
@@ -6,7 +7,7 @@
 <PageTitle>NHL Draft</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">NHL Draft</MudText>
-<MudTable Items="@draftPicks" T="DraftPick" Breakpoint="Breakpoint.None" Dense>
+<MudTable Items="@draftPicks" T="DraftPickInformation" Breakpoint="Breakpoint.None" Dense @ref=@Table>
     <HeaderContent>
         <MudTh>Round</MudTh>
         <MudTh>Pick #</MudTh>
@@ -14,19 +15,47 @@
         <MudTh>Player</MudTh>
         <MudTh>Position</MudTh>
         <MudTh>Amateur Team</MudTh>
+        <MudTh>Games played</MudTh>
+        <MudTh>Goals</MudTh>
+        <MudTh>Assists</MudTh>
+        <MudTh>Points</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd><MudText>@context.RoundNumber</MudText></MudTd>
-        <MudTd><MudText>@context.OverallPickNumber</MudText></MudTd>
-        <MudTd><MudText><NhlTeamLogo TeamId="@context.DraftedByTeamId"/> @context.TriCode</MudText></MudTd>
-        <MudTd><MudText>@context.PlayerName</MudText></MudTd>
-        <MudTd><MudText>@context.Position</MudText></MudTd>
-        <MudTd><MudText>@context.AmateurClubName (@context.AmateurLeague)</MudText></MudTd>
+        <MudTd><MudText>@context.Pick.RoundNumber</MudText></MudTd>
+        <MudTd><MudText>@context.Pick.OverallPickNumber</MudText></MudTd>
+        <MudTd>
+            <MudText>
+                <NhlTeamLogo TeamId="@context.Pick.DraftedByTeamId" Alt="@context.Pick.TriCode"/> @GetTeamString(context.Pick)
+            </MudText>
+        </MudTd>
+        <MudTd><MudText>@context.Pick.PlayerName</MudText></MudTd>
+        <MudTd><MudText>@context.Pick.Position</MudText></MudTd>
+        <MudTd><MudText>@context.Pick.AmateurClubName (@context.Pick.AmateurLeague)</MudText></MudTd>
+        <MudTd><MudText>@context.PlayerStats?.Games</MudText></MudTd>
+        <MudTd><MudText>@context.PlayerStats?.Goals</MudText></MudTd>
+        <MudTd><MudText>@context.PlayerStats?.Assists</MudText></MudTd>
+        <MudTd><MudText>@context.PlayerStats?.Points</MudText></MudTd>
     </RowTemplate>
+    <PagerContent>
+        <MudTablePager HideRowsPerPage/>
+    </PagerContent>    
 </MudTable>
 
 @code {
-    private List<DraftPick> draftPicks = new List<DraftPick>();
+    private List<DraftPickInformation> draftPicks = new List<DraftPickInformation>();
+
+    private MudTable<DraftPickInformation>? Table;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {            
+            // https://github.com/MudBlazor/MudBlazor/issues/4580
+            Table?.SetRowsPerPage(32);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,8 +65,40 @@
             return;
         }
 
-        draftPicks = draft.Picks;
+        foreach (var p in draft.Picks)
+        {
+            var playerId = p.PlayerId;
+            var playersStats = default(PlayerStats?);
+            try
+            {
+                if (playerId != null)
+                {
+                    playersStats = await NhlService.GetPlayersStatsAsync(playerId.Value);
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                draftPicks.Add(new DraftPickInformation(p, playersStats));
+            }
+        }
+        draftPicks = draftPicks.OrderBy(p => p.Pick.OverallPickNumber).ToList();
+
+        Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
 
         await base.OnInitializedAsync();
+    }
+
+    private string GetTeamString(DraftPick pick)
+    {
+        var text = pick.TriCode;
+        if (!string.IsNullOrEmpty(pick.PickOriginallyFrom) && !pick.TriCode.Equals(pick.PickOriginallyFrom, StringComparison.InvariantCultureIgnoreCase))
+        {
+            text += $" via {pick.PickOriginallyFrom}";
+        }
+
+        return text;
     }
 }
