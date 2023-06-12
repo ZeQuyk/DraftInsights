@@ -60,7 +60,7 @@
     protected override async Task OnInitializedAsync()
     {
         var draft = await NhlService.GetDraftAsync(2022);
-        if (draft == null)
+        if (draft is null)
         {
             return;
         }
@@ -84,8 +84,8 @@
                 draftPicks.Add(new DraftPickInformation(p, playersStats));
             }
         }
-        draftPicks = draftPicks.OrderBy(p => p.Pick.OverallPickNumber).ToList();
 
+        draftPicks = draftPicks.OrderBy(p => p.Pick.OverallPickNumber).ToList();
         Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
 
         await base.OnInitializedAsync();

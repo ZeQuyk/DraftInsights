@@ -11,7 +11,7 @@ public class NumberCombination
 
     public override bool Equals(object? obj)
     {
-        if (obj == null || obj is not NumberCombination combination)
+        if (obj is null || obj is not NumberCombination combination)
         {
             return false;
         }

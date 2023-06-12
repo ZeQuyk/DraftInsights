@@ -67,7 +67,7 @@ public class LotterySimulatorService : ILotterySimulatorService
         {
             var winningCombination = _randomizerService.DrawWinningCombination();
             var winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));
-            while (winningTeam == null)
+            while (winningTeam is null)
             {
                 winningCombination = _randomizerService.DrawWinningCombination();
                 winningTeam = teamNumbers.FirstOrDefault(x => x.HasNumberCombination(winningCombination));

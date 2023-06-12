@@ -20,7 +20,7 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
 
         var json = await response.Content.ReadAsStringAsync();
         var standings = JsonSerializer.Deserialize<StandingsResponse>(json);
-        if (standings == null)
+        if (standings is null)
         {
             throw new Exception("response is null");
         }
@@ -38,7 +38,7 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
 
         var json = await response.Content.ReadAsStringAsync();
         var stats = JsonSerializer.Deserialize<PlayerStatsResponse?>(json);
-        if (stats == null)
+        if (stats is null)
         {
             return null;
         }

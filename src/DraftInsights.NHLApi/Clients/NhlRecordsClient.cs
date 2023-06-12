@@ -20,7 +20,7 @@ public class NhlRecordsClient : ClientBase, INhlRecordsClient
 
         var json = await response.Content.ReadAsStringAsync();
         var draft = JsonSerializer.Deserialize<NhlDraftResponse>(json);
-        if (draft == null)
+        if (draft is null)
         {
             throw new Exception("response is null");
         }
