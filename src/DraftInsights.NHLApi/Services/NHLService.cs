@@ -27,7 +27,7 @@ public class NHLService : INHLService
 
     public Task<PlayerStats?> GetPlayersStatsAsync(int playerId)
     {
-        return _memoryCache.GetOrCreateAsync($"player{playerId}", (cacheEntry) => 
+        return _memoryCache.GetOrCreateAsync($"player{playerId}", (cacheEntry) =>
         {
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
 
