@@ -30,7 +30,7 @@
                     <NhlTeamLogo TeamId="@context.Pick.DraftedByTeamId" Alt="@context.Pick.TriCode"/> @GetTeamString(context.Pick)
                 </MudText>
             </MudTd>
-            <MudTd><MudText>@context.Pick.PlayerName</MudText></MudTd>
+            <MudTd><a href="@context.Url"><MudText>@context.Pick.PlayerName</MudText></a></MudTd>
             <MudTd><MudText>@context.Pick.Position</MudText></MudTd>
             <MudTd><MudText>@context.Pick.AmateurClubName (@context.Pick.AmateurLeague)</MudText></MudTd>
             <MudTd><MudText>@context.PlayerStats?.Games</MudText></MudTd>
