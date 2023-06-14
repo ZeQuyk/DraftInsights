@@ -1,13 +1,15 @@
 ﻿@page "/draft"
 @using DraftInsights.Core.Models;
 @using DraftInsights.NHLApi.Models;
-@using DraftInsights.Web.Components
+@using DraftInsights.Web.Components;
+
+@inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager;
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
 
 <PageTitle>NHL Draft</PageTitle>
 
 <MudText Typo="Typo.h3" GutterBottom="true">NHL Draft</MudText>
-<MudTable Items="@draftPicks" T="DraftPickInformation" Breakpoint="Breakpoint.None" Dense @ref=@Table>
+<MudTable Items="@draftPicks" T="DraftPickInformation" Breakpoint="Breakpoint.None" Dense @ref=@Table OnRowClick="OnRowClick">
     <HeaderContent>
         <MudTh>Round</MudTh>
         <MudTh>Pick #</MudTh>
@@ -20,21 +22,21 @@
         <MudTh>Assists</MudTh>
         <MudTh>Points</MudTh>
     </HeaderContent>
-    <RowTemplate>
-        <MudTd><MudText>@context.Pick.RoundNumber</MudText></MudTd>
-        <MudTd><MudText>@context.Pick.OverallPickNumber</MudText></MudTd>
-        <MudTd>
-            <MudText>
-                <NhlTeamLogo TeamId="@context.Pick.DraftedByTeamId" Alt="@context.Pick.TriCode"/> @GetTeamString(context.Pick)
-            </MudText>
-        </MudTd>
-        <MudTd><MudText>@context.Pick.PlayerName</MudText></MudTd>
-        <MudTd><MudText>@context.Pick.Position</MudText></MudTd>
-        <MudTd><MudText>@context.Pick.AmateurClubName (@context.Pick.AmateurLeague)</MudText></MudTd>
-        <MudTd><MudText>@context.PlayerStats?.Games</MudText></MudTd>
-        <MudTd><MudText>@context.PlayerStats?.Goals</MudText></MudTd>
-        <MudTd><MudText>@context.PlayerStats?.Assists</MudText></MudTd>
-        <MudTd><MudText>@context.PlayerStats?.Points</MudText></MudTd>
+    <RowTemplate> 
+            <MudTd><MudText>@context.Pick.RoundNumber</MudText></MudTd>
+            <MudTd><MudText>@context.Pick.OverallPickNumber</MudText></MudTd>
+            <MudTd>
+                <MudText>
+                    <NhlTeamLogo TeamId="@context.Pick.DraftedByTeamId" Alt="@context.Pick.TriCode"/> @GetTeamString(context.Pick)
+                </MudText>
+            </MudTd>
+            <MudTd><MudText>@context.Pick.PlayerName</MudText></MudTd>
+            <MudTd><MudText>@context.Pick.Position</MudText></MudTd>
+            <MudTd><MudText>@context.Pick.AmateurClubName (@context.Pick.AmateurLeague)</MudText></MudTd>
+            <MudTd><MudText>@context.PlayerStats?.Games</MudText></MudTd>
+            <MudTd><MudText>@context.PlayerStats?.Goals</MudText></MudTd>
+            <MudTd><MudText>@context.PlayerStats?.Assists</MudText></MudTd>
+            <MudTd><MudText>@context.PlayerStats?.Points</MudText></MudTd>
     </RowTemplate>
     <PagerContent>
         <MudTablePager HideRowsPerPage/>
@@ -89,6 +91,16 @@
         Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
 
         await base.OnInitializedAsync();
+    }
+
+    private void OnRowClick(TableRowClickEventArgs<DraftPickInformation> playerClicked)
+    {
+        if (playerClicked.Item.Id == default)
+        {
+            return;
+        }
+
+        NavigationManager.NavigateTo($"/{playerClicked.Item.Url}");
     }
 
     private string GetTeamString(DraftPick pick)
