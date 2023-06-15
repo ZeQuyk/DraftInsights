@@ -11,5 +11,7 @@ namespace DraftInsights.NHLApi.Services
         Task<List<Stat>?> GetPlayersStatsAsync(int playerId, StatsTypes statsType);
 
         string GetTeamLogoUrl(int teamId);
+
+        Task<PlayerDetail?> GetPlayerDetailAsync(int playerId);
     }
 }

@@ -2,21 +2,18 @@
 
 namespace DraftInsights.Core.Models;
 
-public class DraftPickInformation : INhlPlayer
+public class DraftPickInformation : PlayerBase
 {
-    public DraftPickInformation(DraftPick pick, PlayerStats? stats)
+    public DraftPickInformation(DraftPick pick)
     {
         Pick = pick;
-        PlayerStats = stats;
     }
 
     public DraftPick Pick { get; set; }
 
     public PlayerStats? PlayerStats { get; set; }
 
-    public int Id => Pick.PlayerId.GetValueOrDefault();
+    public override int Id => Pick.PlayerId.GetValueOrDefault();
 
-    public string FullName => Pick.PlayerName;
-
-    public string Url => $"player/{Id}?name={FullName}";
+    public override string FullName => Pick.PlayerName;
 }

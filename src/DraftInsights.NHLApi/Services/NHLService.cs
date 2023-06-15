@@ -36,6 +36,18 @@ public class NHLService : INHLService
         });
     }
 
+    public Task<PlayerDetail?> GetPlayerDetailAsync(int playerId)
+    {
+        return _memoryCache.GetOrCreateAsync($"playerdetail{playerId}", async (cacheEntry) =>
+        {
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+
+            var players = await _nhlStatsClient.GetPlayerDetailsAsync(playerId);
+
+            return players.FirstOrDefault(p => p.Id == playerId);
+        });
+    }
+
     public string GetTeamLogoUrl(int teamId)
         => $"{TeamLogoUrlBase}/{teamId}.svg";
 }

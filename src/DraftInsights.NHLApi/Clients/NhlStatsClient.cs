@@ -47,4 +47,21 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
         return stats.Stats;
     }
 
+    public async Task<List<PlayerDetail>> GetPlayerDetailsAsync(int playerId)
+    {
+        using var response = await HttpClient.GetAsync($"api/v1/people/{playerId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception("Invalid response");
+        }
+
+        var json = await response.Content.ReadAsStringAsync();
+        var detail = JsonSerializer.Deserialize<PlayerDetailResponse>(json);
+        if (detail is null)
+        {
+            return new List<PlayerDetail>();
+        }
+
+        return detail.People;
+    }
 }

@@ -7,4 +7,6 @@ public interface INhlPlayer
     public string FullName { get; }
 
     public string Url { get; }
+
+    public string AvatarUrl { get; }
 }

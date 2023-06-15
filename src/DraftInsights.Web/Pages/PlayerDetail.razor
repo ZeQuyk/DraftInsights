@@ -1,18 +1,18 @@
 ﻿@page "/player/{playerId:int}"
+@using DraftInsights.Core.Models;
 @using DraftInsights.NHLApi.Models;
 
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
-
 <MudText Typo="Typo.h3" Align="Align.Center">
-    <MudAvatar Image="@HeadShotUrl" Elevation="10" Style="height:136px;width:136px;" Alt="@PlayerName" />
+    <MudAvatar Image="@playerInformation?.AvatarUrl" Elevation="10" Style="height:136px;width:136px;" Alt="@PlayerName" />
     <br />
     @PlayerName
 </MudText>
 
-<MudTable T="Split" Items="@Splits" Dense>
+<MudTable T="Split" Items="@playerInformation?.Stats?.Splits" Dense Breakpoint="Breakpoint.None">
     <HeaderContent>
         <MudTh>Year</MudTh>
         <MudTh>League</MudTh>
@@ -36,9 +36,7 @@
 </MudTable>
 
 @code {
-    private List<Split> Splits = new List<Split>();
-
-    private string HeadShotUrl => $"https://cms.nhl.bamgrid.com/images/headshots/current/168x168/{PlayerId}.jpg";
+    private PlayerInformation? playerInformation;
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "name")]
@@ -50,10 +48,15 @@
     protected async override Task OnInitializedAsync()
     {
         var statsResponse = await NhlService.GetPlayersStatsAsync(PlayerId.GetValueOrDefault(), StatsTypes.YearByYear);
+        var playerDetail = await NhlService.GetPlayerDetailAsync(PlayerId.GetValueOrDefault());
 
-        Splits = statsResponse?.FirstOrDefault()?.Splits ?? new List<Split>();
-        // TODO: Player information
+        playerInformation = new PlayerInformation
+            {
+                Stats = statsResponse?.FirstOrDefault(),
+                Player = playerDetail,
+            };
 
+        PlayerName = playerInformation?.FullName ?? PlayerName;
         await base.OnInitializedAsync();
     }
 

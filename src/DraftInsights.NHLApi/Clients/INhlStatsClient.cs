@@ -7,5 +7,7 @@ namespace DraftInsights.NHLApi.Clients
         Task<StandingsResponse> GetStandingsAsync();
 
         Task<List<Stat>> GetPlayerStatsAsync(int playerId, StatsTypes statsType);
+
+        Task<List<PlayerDetail>> GetPlayerDetailsAsync(int playerId);
     }
 }

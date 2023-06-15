@@ -1,6 +1,6 @@
 ﻿namespace DraftInsights.NHLApi.Models;
 
-public class PlayerInformation
+public class PlayerDetail
 {
     public int Id { get; set; }
 
@@ -16,8 +16,6 @@ public class PlayerInformation
 
     public string BirthDate { get; set; } = string.Empty;
 
-    public int CurrentAge { get; set; }
-
     public string BirthCity { get; set; } = string.Empty;
 
     public string BirthStateProvince { get; set; } = string.Empty;
@@ -28,21 +26,15 @@ public class PlayerInformation
 
     public string Height { get; set; } = string.Empty;
 
-    public int? Weight { get; set; }
+    public int Weight { get; set; }
 
     public bool Active { get; set; }
-
-    public bool AlternateCaptain { get; set; }
-
-    public bool Captain { get; set; }
 
     public bool Rookie { get; set; }
 
     public string ShootsCatches { get; set; } = string.Empty;
 
     public string RosterStatus { get; set; } = string.Empty;
-
-    public TeamDefinition? CurrentTeam { get; set; }
 
     public Position? PrimaryPosition { get; set; }
 }

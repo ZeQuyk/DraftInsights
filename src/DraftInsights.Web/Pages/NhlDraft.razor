@@ -61,6 +61,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
         var draft = await NhlService.GetDraftAsync(2022);
         if (draft is null)
         {
@@ -70,28 +71,31 @@
         foreach (var p in draft.Picks)
         {
             var playerId = p.PlayerId;
-            var playersStats = default(PlayerStats?);
+            var draftPickInformation = new DraftPickInformation(p);
+            draftPicks.Add(draftPickInformation);
+        }
+
+        Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
+        _ = SetPlayerStats();
+    }
+
+    private async Task SetPlayerStats()
+    {
+        foreach (var pick in draftPicks)
+        {
             try
             {
-                if (playerId != null)
+                if (pick.Id != default)
                 {
-                    var response = await NhlService.GetPlayersStatsAsync(playerId.Value, StatsTypes.CareerRegularSeason);
-                    playersStats = response?.FirstOrDefault()?.Splits?.FirstOrDefault()?.Stat;
+                    var response = await NhlService.GetPlayersStatsAsync(pick.Id, StatsTypes.CareerRegularSeason);
+                    pick.PlayerStats = response?.FirstOrDefault()?.Splits?.FirstOrDefault()?.Stat;
+                    StateHasChanged();
                 }
             }
             catch
             {
             }
-            finally
-            {
-                draftPicks.Add(new DraftPickInformation(p, playersStats));
-            }
         }
-
-        draftPicks = draftPicks.OrderBy(p => p.Pick.OverallPickNumber).ToList();
-        Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
-
-        await base.OnInitializedAsync();
     }
 
     private void OnRowClick(TableRowClickEventArgs<DraftPickInformation> playerClicked)
