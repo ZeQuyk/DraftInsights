@@ -5,8 +5,12 @@
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
-<MudAvatar Image="@HeadShotUrl" Elevation="10" Style="height:136px;width:136px;" Alt="@PlayerName"/>
-<MudText Typo="Typo.h3" Align="Align.Center">@PlayerName</MudText>
+
+<MudText Typo="Typo.h3" Align="Align.Center">
+    <MudAvatar Image="@HeadShotUrl" Elevation="10" Style="height:136px;width:136px;" Alt="@PlayerName" />
+    <br />
+    @PlayerName
+</MudText>
 
 <MudTable T="Split" Items="@Splits" Dense>
     <HeaderContent>
