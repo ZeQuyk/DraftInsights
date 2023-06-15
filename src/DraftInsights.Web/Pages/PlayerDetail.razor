@@ -19,7 +19,7 @@
         <MudTh>Plus/Minus</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd>@context.Season</MudTd>
+        <MudTd>@DisplaySeason(context.Season)</MudTd>
         <MudTd>@context?.League?.Name</MudTd>
         <MudTd>@context?.Team?.Name</MudTd>
         <MudTd>@context?.Stat?.Games</MudTd>
@@ -48,5 +48,15 @@
         // TODO: Player information
 
         await base.OnInitializedAsync();
+    }
+
+    private string? DisplaySeason(string? season)
+    {
+        if (string.IsNullOrEmpty(season))
+        {
+            return null;
+        }
+
+        return season.Insert(season.Length / 2, "-");
     }
 }
