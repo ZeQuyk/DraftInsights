@@ -1,4 +1,5 @@
-﻿using DraftInsights.NHLApi.Models;
+﻿using DraftInsights.NHLApi.Extensions;
+using DraftInsights.NHLApi.Models;
 using DraftInsights.NHLApi.Serialization;
 
 namespace DraftInsights.NHLApi.Clients;
@@ -28,9 +29,9 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
         return standings;
     }
 
-    public async Task<PlayerStats?> GetPlayerStatsAsync(int playerId)
+    public async Task<List<Stat>> GetPlayerStatsAsync(int playerId, StatsTypes statsType)
     {
-        using var response = await HttpClient.GetAsync($"api/v1/people/{playerId}/stats?stats=careerRegularSeason");
+        using var response = await HttpClient.GetAsync($"api/v1/people/{playerId}/stats?stats={statsType.GetStatsTypeString()}");
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception("Invalid response");
@@ -40,10 +41,10 @@ public class NhlStatsClient : ClientBase, INhlStatsClient
         var stats = JsonSerializer.Deserialize<PlayerStatsResponse?>(json);
         if (stats is null)
         {
-            return null;
+            return new List<Stat>();
         }
 
-        return stats.Stats.FirstOrDefault()?.Splits.FirstOrDefault()?.Stat;
+        return stats.Stats;
     }
 
 }

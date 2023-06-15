@@ -40,7 +40,7 @@
             </MudGrid>           
         </MudTd>
         <MudTd>
-            <NhlTeamLogo TeamId="@context.TeamRecord.Team!.Id" Alt="@context.TeamRecord.Team!.Name"/>
+            <NhlTeamLogo TeamId="@context.TeamRecord.Team!.Id.GetValueOrDefault()" Alt="@context.TeamRecord.Team!.Name"/>
             @context.TeamRecord.Team!.Name       
         </MudTd>
         <MudTd>@((context.Odds * 100).ToString("0.0"))%</MudTd>

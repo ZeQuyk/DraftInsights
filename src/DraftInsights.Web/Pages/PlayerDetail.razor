@@ -1,0 +1,52 @@
+﻿@page "/player/{playerId:int}"
+@using DraftInsights.NHLApi.Models;
+
+@inject DraftInsights.NHLApi.Services.INHLService NhlService;
+
+<PageTitle>@PlayerName Career Stats</PageTitle>
+
+<MudText Typo="Typo.h3" Align="Align.Center">@PlayerName</MudText>
+
+<MudTable T="Split" Items="@Splits" Dense>
+    <HeaderContent>
+        <MudTh>Year</MudTh>
+        <MudTh>League</MudTh>
+        <MudTh>Team</MudTh>
+        <MudTh>Games</MudTh>
+        <MudTh>Goals</MudTh>
+        <MudTh>Assists</MudTh>
+        <MudTh>Points</MudTh>
+        <MudTh>Plus/Minus</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Season</MudTd>
+        <MudTd>@context?.League?.Name</MudTd>
+        <MudTd>@context?.Team?.Name</MudTd>
+        <MudTd>@context?.Stat?.Games</MudTd>
+        <MudTd>@context?.Stat?.Goals</MudTd>
+        <MudTd>@context?.Stat?.Assists</MudTd>
+        <MudTd>@context?.Stat?.Points</MudTd>
+        <MudTd>@context?.Stat?.PlusMinus</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Split> Splits = new List<Split>();
+
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "name")]
+    public string? PlayerName { get; set; }
+
+    [Parameter]
+    public int? PlayerId { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var statsResponse = await NhlService.GetPlayersStatsAsync(PlayerId.GetValueOrDefault(), StatsTypes.YearByYear);
+
+        Splits = statsResponse?.FirstOrDefault()?.Splits ?? new List<Split>();
+        // TODO: Player information
+
+        await base.OnInitializedAsync();
+    }
+}

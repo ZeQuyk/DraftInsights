@@ -21,7 +21,13 @@ public class PlayerStatsResponse
 
 public class Split
 {
+    public string? Season { get; set; }
+
     public PlayerStats? Stat { get; set; }
+
+    public TeamDefinition? Team { get; set; }
+
+    public LeagueDefinition? League { get; set; }
 }
 
 public class Stat

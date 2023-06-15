@@ -1,4 +1,5 @@
 ﻿using DraftInsights.NHLApi.Clients;
+using DraftInsights.NHLApi.Extensions;
 using DraftInsights.NHLApi.Models;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -25,13 +26,13 @@ public class NHLService : INHLService
     public Task<NhlDraftResponse?> GetDraftAsync(int year)
         => _nhlRecordsClient.GetDraftAsync(year);
 
-    public Task<PlayerStats?> GetPlayersStatsAsync(int playerId)
+    public Task<List<Stat>?> GetPlayersStatsAsync(int playerId, StatsTypes statsType)
     {
-        return _memoryCache.GetOrCreateAsync($"player{playerId}", (cacheEntry) =>
+        return _memoryCache.GetOrCreateAsync($"player{playerId}_{statsType.GetStatsTypeString()}", (cacheEntry) =>
         {
             cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
 
-            return _nhlStatsClient.GetPlayerStatsAsync(playerId);
+            return _nhlStatsClient.GetPlayerStatsAsync(playerId, statsType);
         });
     }
 

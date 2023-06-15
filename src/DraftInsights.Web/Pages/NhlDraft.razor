@@ -75,7 +75,8 @@
             {
                 if (playerId != null)
                 {
-                    playersStats = await NhlService.GetPlayersStatsAsync(playerId.Value);
+                    var response = await NhlService.GetPlayersStatsAsync(playerId.Value, StatsTypes.CareerRegularSeason);
+                    playersStats = response?.FirstOrDefault()?.Splits?.FirstOrDefault()?.Stat;
                 }
             }
             catch
