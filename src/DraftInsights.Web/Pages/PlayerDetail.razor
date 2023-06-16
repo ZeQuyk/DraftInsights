@@ -6,13 +6,26 @@
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
-<MudText Typo="Typo.h3" Align="Align.Center">
-    <MudAvatar Image="@playerInformation?.AvatarUrl" Elevation="10" Style="height:136px;width:136px;" Alt="@PlayerName" />
-    <br />
-    @PlayerName
-</MudText>
+<MudCard Elevation="10" Class="mb-3">
+    <MudCardContent>
+        <MudText Typo="Typo.h3" Align="Align.Center">
+            <MudAvatar Elevation="10" Style="height:136px;width:136px;">
+                <MudImage Src="@playerInformation?.AvatarUrl" Alt="@PlayerName" />
+            </MudAvatar>
+            <br />
+            @PlayerName @DisplayPlayerNumber()
+        </MudText>
+        @if (playerInformation?.Player is not null)
+        {
+            <MudText Align="Align.Center">
+                @playerInformation.Player.PrimaryPosition?.Name
+            </MudText>
+        }
+    </MudCardContent>
+</MudCard>
 
-<MudTable T="Split" Items="@playerInformation?.Stats?.Splits" Dense Breakpoint="Breakpoint.None">
+
+<MudTable T="Split" Items="@playerInformation?.Stats?.Splits" Dense Breakpoint="Breakpoint.None" Elevation="10">
     <HeaderContent>
         <MudTh>Year</MudTh>
         <MudTh>League</MudTh>
@@ -58,6 +71,16 @@
 
         PlayerName = playerInformation?.FullName ?? PlayerName;
         await base.OnInitializedAsync();
+    }
+
+    private string? DisplayPlayerNumber()
+    {
+        if (string.IsNullOrEmpty(playerInformation?.Player?.PrimaryNumber))
+        {
+            return null;
+        }
+
+        return $"#{playerInformation.Player.PrimaryNumber}";
     }
 
     private string? DisplaySeason(string? season)
