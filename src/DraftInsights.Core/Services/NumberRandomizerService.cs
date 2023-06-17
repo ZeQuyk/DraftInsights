@@ -1,4 +1,5 @@
-﻿using DraftInsights.Core.Models;
+﻿using DraftInsights.Core.Extensions;
+using DraftInsights.Core.Models;
 
 namespace DraftInsights.Core.Services;
 
@@ -10,14 +11,13 @@ public class NumberRandomizerService : INumberRandomizerService
 
     public List<TeamLotteryNumbers> AssignNumbers(IEnumerable<TeamOdds> teamOdds)
     {
-        /* 
-            From The Athletic's Aaron Portzline https://theathletic.com/4453404/2023/05/05/nhl-draft-lottery-format-rules-odds/:
-            First, 14 ping-pong balls are loaded into a lottery machine, each of them labeled with a number between 1 and 14 (1, 2, 3, etc.).
-            Why 14? Because there are 1,001 different four-digit number combinations between 1 and 14, and the league needs 1,000 different possible numbers to conduct its lottery.
-            One of the 1,001 number combinations is chosen at random and is removed from the pool of possible numbers, leaving the process with an even 1,000 numbers.
-         */
+        // From The Athletic's Aaron Portzline https://theathletic.com/4453404/2023/05/05/nhl-draft-lottery-format-rules-odds/:
+        // First, 14 ping-pong balls are loaded into a lottery machine, each of them labeled with a number between 1 and 14 (1, 2, 3, etc.).
+        // Why 14? Because there are 1,001 different four-digit number combinations between 1 and 14, and the league needs 1,000 different possible numbers to conduct its lottery.
+        // One of the 1,001 number combinations is chosen at random and is removed from the pool of possible numbers, leaving the process with an even 1,000 numbers.
+
         var numbers = InitializeNumberCombinations();
-        Shuffle(numbers);
+        numbers.Shuffle();
         if (numbers.Count % 2 == 1)
         {
             numbers.RemoveAt(numbers.Count - 1);
@@ -28,10 +28,10 @@ public class NumberRandomizerService : INumberRandomizerService
         var count = numbers.Count;
         foreach (var team in teamOdds)
         {
-            var newIndex = (int)Math.Floor(team.Odds * count);
-            var combinations = numbers.Skip(index).Take(newIndex).Select(x => new NumberCombination(x));
+            var combinationsAmount = (int)Math.Floor(team.Odds * count);
+            var combinations = numbers.Skip(index).Take(combinationsAmount).Select(x => new NumberCombination(x));
             result.Add(new TeamLotteryNumbers(team.LeagueRank, team.Odds, combinations.ToArray()));
-            index = index + newIndex - 1;
+            index += combinationsAmount - 1;
         }
 
         return result;
@@ -77,16 +77,5 @@ public class NumberRandomizerService : INumberRandomizerService
         }
 
         return returnList;
-    }
-
-    private static void Shuffle<T>(List<T> array)
-    {
-        var random = new Random();
-        int n = array.Count;
-        while (n > 1)
-        {
-            int k = random.Next(n--);
-            (array[k], array[n]) = (array[n], array[k]);
-        }
     }
 }
