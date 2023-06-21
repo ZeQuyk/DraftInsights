@@ -12,6 +12,7 @@ services.AddRazorPages();
 services.AddServerSideBlazor();
 services.AddScoped<INumberRandomizerService, NumberRandomizerService>();
 services.AddScoped<ILotterySimulatorService, LotterySimulatorService>();
+services.AddScoped<ICountryService, CountryService>();
 services.AddMudServices();
 services.AddNhlApi();
 services.AddHttpClient();

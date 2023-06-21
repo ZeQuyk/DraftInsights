@@ -3,6 +3,7 @@
 @using DraftInsights.NHLApi.Models;
 
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
+@inject DraftInsights.Core.Services.ICountryService CountryService;
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
@@ -13,6 +14,10 @@
                 <MudImage Src="@playerInformation?.AvatarUrl" Alt="@PlayerName" />
             </MudAvatar>
             <br />
+            @if (!string.IsNullOrEmpty(playerInformation?.Player?.Nationality))
+            {
+                <MudImage Src="@CountryService.GetCountryLogoUrl(playerInformation.Player.Nationality)" Alt="@playerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-right:10px;" />
+            }
             @PlayerName @DisplayPlayerNumber()
         </MudText>
         @if (playerInformation?.Player is not null)
