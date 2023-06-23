@@ -1,13 +1,12 @@
 ﻿using DraftInsights.NHLApi.Models;
 
-namespace DraftInsights.NHLApi.Clients
+namespace DraftInsights.NHLApi.Clients;
+
+public interface INhlStatsClient
 {
-    public interface INhlStatsClient
-    {
-        Task<StandingsResponse> GetStandingsAsync();
+    Task<StandingsResponse> GetStandingsAsync();
 
-        Task<List<Stat>> GetPlayerStatsAsync(int playerId, StatsTypes statsType);
+    Task<List<Stat>> GetPlayerStatsAsync(int playerId, StatsTypes statsType);
 
-        Task<List<PlayerDetail>> GetPlayerDetailsAsync(int playerId);
-    }
+    Task<List<PlayerDetail>> GetPlayerDetailsAsync(int playerId);
 }

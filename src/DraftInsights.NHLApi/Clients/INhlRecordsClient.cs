@@ -1,9 +1,8 @@
 ﻿using DraftInsights.NHLApi.Models;
 
-namespace DraftInsights.NHLApi.Clients
+namespace DraftInsights.NHLApi.Clients;
+
+public interface INhlRecordsClient
 {
-    public interface INhlRecordsClient
-    {
-        Task<NhlDraftResponse?> GetDraftAsync(int year);
-    }
+    Task<NhlDraftResponse?> GetDraftAsync(int year);
 }
