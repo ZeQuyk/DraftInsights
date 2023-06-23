@@ -14,16 +14,24 @@
                 <MudImage Src="@playerInformation?.AvatarUrl" Alt="@PlayerName" />
             </MudAvatar>
             <br />
-            @if (!string.IsNullOrEmpty(playerInformation?.Player?.Nationality))
+            @if (TeamId is not null)
             {
-                <MudImage Src="@CountryService.GetCountryLogoUrl(playerInformation.Player.Nationality)" Alt="@playerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-right:10px;" />
+                <DraftInsights.Web.Components.NhlTeamLogo TeamId="TeamId.Value" Height="64" Width="64" Alt=""/>              
             }
             @PlayerName @DisplayPlayerNumber()
         </MudText>
         @if (playerInformation?.Player is not null)
         {
             <MudText Align="Align.Center">
-                @playerInformation.Player.PrimaryPosition?.Name
+                @playerInformation.Player.PrimaryPosition?.Name - Shoots @playerInformation.Player.ShootsCatches
+                <br/>
+                @playerInformation.Player.Height - @playerInformation.Player.Weight lbs
+                <br/>
+                Born @playerInformation.Player.BirthDate in @playerInformation.GetBirthLocation() 
+                @if (!string.IsNullOrEmpty(playerInformation?.Player?.Nationality))
+                {
+                    <MudImage Src="@CountryService.GetCountryLogoUrl(playerInformation.Player.Nationality)" Alt="@playerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-left:10px;height:32px;width=32px;" />
+                }
             </MudText>
         }
     </MudCardContent>
@@ -54,6 +62,8 @@
 
 @code {
     private PlayerInformation? playerInformation;
+
+    private int? TeamId => playerInformation?.GetCurrentTeamId();
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "name")]

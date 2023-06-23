@@ -7,6 +7,8 @@ namespace DraftInsights.NHLApi.Services;
 
 public class NHLService : INHLService
 {
+    public const int NhlLeagueId = 133;
+
     private const string TeamLogoUrlBase = "https://www-league.nhlstatic.com/images/logos/teams-current-primary-dark";
 
     private readonly INhlStatsClient _nhlStatsClient;

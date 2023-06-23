@@ -62,7 +62,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        var draft = await NhlService.GetDraftAsync(2022);
+        var draft = await NhlService.GetDraftAsync(2019);
         if (draft is null)
         {
             return;
