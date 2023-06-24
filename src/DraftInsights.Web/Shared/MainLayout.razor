@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider IsDarkMode />
+<MudThemeProvider IsDarkMode/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -11,7 +11,8 @@
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Href="https://github.com/ZeQuyk/DraftInsights" Target="_blank" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader>
+        <MudDrawerHeader LinkToIndex>
+            <MudImage Src="logo.png" Height="30" Width="60" Alt="DraftInsights" />
             <MudText Typo="Typo.h6">DraftInsights</MudText>
         </MudDrawerHeader>
         <NavMenu />
