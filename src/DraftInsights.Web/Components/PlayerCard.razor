@@ -1,0 +1,52 @@
+﻿@using DraftInsights.Core.Models;
+@inject DraftInsights.Core.Services.ICountryService CountryService;
+
+<MudCard Elevation="10" Class="mb-3">
+    <MudCardContent>
+        <MudText Typo="Typo.h3" Align="Align.Center">
+            <MudAvatar Elevation="10" Style="height:136px;width:136px;">
+                <MudImage Src="@PlayerInformation?.AvatarUrl" Alt="@PlayerName" />
+            </MudAvatar>
+            <br />
+            @if (TeamId is not null)
+            {
+                <DraftInsights.Web.Components.NhlTeamLogo TeamId="TeamId.Value" Height="64" Width="64" Alt="" />
+            }
+            @PlayerName @DisplayPlayerNumber()
+        </MudText>
+        @if (PlayerInformation?.Player is not null)
+        {
+            <MudText Align="Align.Center">
+                @PlayerInformation.Player.PrimaryPosition?.Name - Shoots @PlayerInformation.Player.ShootsCatches
+                <br />
+                @PlayerInformation.Player.Height - @PlayerInformation.Player.Weight lbs
+                <br />
+                Born @PlayerInformation.Player.BirthDate in @PlayerInformation.GetBirthLocation()
+                @if (!string.IsNullOrEmpty(PlayerInformation?.Player?.Nationality))
+                {
+                    <MudImage Src="@CountryService.GetCountryLogoUrl(PlayerInformation.Player.Nationality)" Alt="@PlayerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-left:10px;height:32px;width=32px;" />
+                }
+            </MudText>
+        }
+    </MudCardContent>
+</MudCard>
+
+@code {
+    private int? TeamId => PlayerInformation?.GetCurrentTeamId();
+
+    [Parameter, EditorRequired]
+    public PlayerInformation? PlayerInformation { get; set; }
+
+    [Parameter, EditorRequired]
+    public string PlayerName { get; set; } = string.Empty;
+
+    private string? DisplayPlayerNumber()
+    {
+        if (string.IsNullOrEmpty(PlayerInformation?.Player?.PrimaryNumber))
+        {
+            return null;
+        }
+
+        return $"#{PlayerInformation.Player.PrimaryNumber}";
+    }
+}

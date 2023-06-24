@@ -1,41 +1,13 @@
 ﻿@page "/player/{playerId:int}"
 @using DraftInsights.Core.Models;
 @using DraftInsights.NHLApi.Models;
+@using DraftInsights.Web.Components
 
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
-@inject DraftInsights.Core.Services.ICountryService CountryService;
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
-<MudCard Elevation="10" Class="mb-3">
-    <MudCardContent>
-        <MudText Typo="Typo.h3" Align="Align.Center">
-            <MudAvatar Elevation="10" Style="height:136px;width:136px;">
-                <MudImage Src="@playerInformation?.AvatarUrl" Alt="@PlayerName" />
-            </MudAvatar>
-            <br />
-            @if (TeamId is not null)
-            {
-                <DraftInsights.Web.Components.NhlTeamLogo TeamId="TeamId.Value" Height="64" Width="64" Alt=""/>              
-            }
-            @PlayerName @DisplayPlayerNumber()
-        </MudText>
-        @if (playerInformation?.Player is not null)
-        {
-            <MudText Align="Align.Center">
-                @playerInformation.Player.PrimaryPosition?.Name - Shoots @playerInformation.Player.ShootsCatches
-                <br/>
-                @playerInformation.Player.Height - @playerInformation.Player.Weight lbs
-                <br/>
-                Born @playerInformation.Player.BirthDate in @playerInformation.GetBirthLocation() 
-                @if (!string.IsNullOrEmpty(playerInformation?.Player?.Nationality))
-                {
-                    <MudImage Src="@CountryService.GetCountryLogoUrl(playerInformation.Player.Nationality)" Alt="@playerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-left:10px;height:32px;width=32px;" />
-                }
-            </MudText>
-        }
-    </MudCardContent>
-</MudCard>
+<PlayerCard PlayerInformation="@playerInformation" PlayerName="@PlayerName"/>
 
 <MudTable T="Split" Items="@playerInformation?.Stats?.Splits" Dense Breakpoint="Breakpoint.None" Elevation="10">
     <HeaderContent>
@@ -63,8 +35,6 @@
 @code {
     private PlayerInformation? playerInformation;
 
-    private int? TeamId => playerInformation?.GetCurrentTeamId();
-
     [Parameter]
     [SupplyParameterFromQuery(Name = "name")]
     public string? PlayerName { get; set; }
@@ -85,16 +55,6 @@
 
         PlayerName = playerInformation?.FullName ?? PlayerName;
         await base.OnInitializedAsync();
-    }
-
-    private string? DisplayPlayerNumber()
-    {
-        if (string.IsNullOrEmpty(playerInformation?.Player?.PrimaryNumber))
-        {
-            return null;
-        }
-
-        return $"#{playerInformation.Player.PrimaryNumber}";
     }
 
     private string? DisplaySeason(string? season)
