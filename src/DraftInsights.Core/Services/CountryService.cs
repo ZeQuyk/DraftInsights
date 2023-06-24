@@ -7,9 +7,7 @@ public class CountryService : ICountryService
     public string? GetCountryLogoUrl(string country3ISOCode)
     {
         var provider = new CountryProvider();
-
-        var country = provider.GetCountry(country3ISOCode);
-        if (country is null)
+        if (!provider.TryGetCountry(country3ISOCode, out var country))
         {
             return null;
         }
