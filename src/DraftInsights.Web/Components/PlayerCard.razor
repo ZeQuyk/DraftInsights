@@ -24,7 +24,7 @@
                 Born @PlayerInformation.Player.BirthDate in @PlayerInformation.GetBirthLocation()
                 @if (!string.IsNullOrEmpty(PlayerInformation?.Player?.Nationality))
                 {
-                    <MudImage Src="@CountryService.GetCountryLogoUrl(PlayerInformation.Player.Nationality)" Alt="@PlayerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-left:10px;height:32px;width=32px;" />
+                    <MudImage Src="@CountryService.GetCountryLogoUrl(PlayerInformation.Player.Nationality)" Alt="@PlayerInformation.Player.Nationality" Style="margin-bottom:-10px;margin-left:10px" />
                 }
             </MudText>
         }

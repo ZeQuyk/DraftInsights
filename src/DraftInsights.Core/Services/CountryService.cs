@@ -12,6 +12,6 @@ public class CountryService : ICountryService
             return null;
         }
 
-        return $"https://flagsapi.com/{country.Alpha2Code}/flat/48.png";
+        return $"https://flagsapi.com/{country.Alpha2Code}/flat/32.png";
     }
 }
