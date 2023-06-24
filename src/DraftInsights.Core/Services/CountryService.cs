@@ -9,7 +9,7 @@ public class CountryService : ICountryService
         var provider = new CountryProvider();
 
         var country = provider.GetCountry(country3ISOCode);
-        if (country == null)
+        if (country is null)
         {
             return null;
         }

@@ -33,7 +33,7 @@ public class PlayerInformation : PlayerBase
             return null;
         }
 
-        if (Player is null || Player.Active) 
+        if (Player is null || Player.Active)
         {
             return nhlSeasons.LastOrDefault()?.Team?.Id;
         }
