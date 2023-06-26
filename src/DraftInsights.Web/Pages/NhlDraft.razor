@@ -38,7 +38,7 @@
             </MudTd>
             <MudTd><a href="@context.Url"><MudText>@context.Pick.PlayerName</MudText></a></MudTd>
             <MudTd><MudText>@context.Pick.Position</MudText></MudTd>
-            <MudTd><MudText>@context.Pick.AmateurClubName (@context.Pick.AmateurLeague)</MudText></MudTd>
+            <MudTd><MudText>@context.GetAmateurTeamString()</MudText></MudTd>
             <MudTd><MudText>@context.PlayerStats?.Games</MudText></MudTd>
             <MudTd><MudText>@context.PlayerStats?.Goals</MudText></MudTd>
             <MudTd><MudText>@context.PlayerStats?.Assists</MudText></MudTd>

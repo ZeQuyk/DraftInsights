@@ -16,4 +16,15 @@ public class DraftPickInformation : PlayerBase
     public override int Id => Pick.PlayerId.GetValueOrDefault();
 
     public override string FullName => Pick.PlayerName;
+
+    public string GetAmateurTeamString()
+    {
+        var text = Pick.AmateurClubName;
+        if (!string.IsNullOrEmpty(Pick.AmateurLeague))
+        {
+            text += $" [{Pick.AmateurLeague}]";
+        }
+
+        return text;
+    }
 }

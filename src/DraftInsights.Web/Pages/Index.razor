@@ -7,9 +7,14 @@
 
 <PageTitle>Draft lottery simulator</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Draft lottery simulator</MudText>
-<MudButton OnClick="SimulateDraftAsync">Simulate</MudButton>
-<MudButton OnClick="ResetDraftAsync">Reset</MudButton>
+<MudItem Class="d-flex justify-center flex-grow-1 gap-4 mb-1">
+    <MudText Typo="Typo.h4">Draft Lottery Simulator</MudText>
+    <MudButtonGroup Color="Color.Primary" Size="Size.Medium" Variant="Variant.Outlined">
+        <MudButton OnClick="SimulateDraftAsync">Simulate</MudButton>
+        <MudButton OnClick="ResetDraftAsync">Reset</MudButton>
+    </MudButtonGroup>
+</MudItem>
+
 <MudTable Items="@draftPositions" T="DraftPosition" Breakpoint="Breakpoint.None" Dense>
     <HeaderContent>
         <MudTh>Position</MudTh>
