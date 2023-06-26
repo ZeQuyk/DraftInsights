@@ -15,7 +15,6 @@
     <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowForward" Href="@NextDraftLink" Title="@((DraftYear + 1).ToString())" Disabled="@string.IsNullOrEmpty(NextDraftLink)" />
 </MudItem>
 
-
 <MudTable Items="@draftPicks" T="DraftPickInformation" Breakpoint="Breakpoint.None" Dense @ref=@Table OnRowClick="OnRowClick">
     <HeaderContent>
         <MudTh>Round</MudTh>
@@ -51,11 +50,11 @@
 </MudTable>
 
 @code {
+    private const int MostRecentDraftYear = 2022;
+
     private string PreviousDraftLink => DraftYear.HasValue ? $"/draft/{DraftYear.Value - 1}" : string.Empty;
 
     private string NextDraftLink => DraftYear.HasValue && DraftYear.Value + 1 <= MostRecentDraftYear ? $"/draft/{DraftYear.Value + 1}" : string.Empty;
-
-    private int MostRecentDraftYear = 2022;
 
     private List<DraftPickInformation> draftPicks = new List<DraftPickInformation>();
 
