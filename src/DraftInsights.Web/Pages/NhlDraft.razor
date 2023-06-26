@@ -1,4 +1,5 @@
 ﻿@page "/draft"
+@page "/draft/{draftYear:int}"
 @using DraftInsights.Core.Models;
 @using DraftInsights.NHLApi.Models;
 @using DraftInsights.Web.Components;
@@ -6,9 +7,15 @@
 @inject Microsoft.AspNetCore.Components.NavigationManager NavigationManager;
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
 
-<PageTitle>NHL Draft</PageTitle>
+<PageTitle>@DraftYear NHL Draft</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">NHL Draft</MudText>
+<MudItem Class="d-flex justify-space-around flex-grow-1 gap-3">
+    <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowBack" Href="@PreviousDraftLink" Title="@((DraftYear - 1).ToString())" Disabled="@string.IsNullOrEmpty(PreviousDraftLink)" />
+    <MudText Typo="Typo.h4">@DraftYear NHL Draft</MudText>
+    <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.ArrowForward" Href="@NextDraftLink" Title="@((DraftYear + 1).ToString())" Disabled="@string.IsNullOrEmpty(NextDraftLink)" />
+</MudItem>
+
+
 <MudTable Items="@draftPicks" T="DraftPickInformation" Breakpoint="Breakpoint.None" Dense @ref=@Table OnRowClick="OnRowClick">
     <HeaderContent>
         <MudTh>Round</MudTh>
@@ -44,9 +51,18 @@
 </MudTable>
 
 @code {
+    private string PreviousDraftLink => DraftYear.HasValue ? $"/draft/{DraftYear.Value - 1}" : string.Empty;
+
+    private string NextDraftLink => DraftYear.HasValue && DraftYear.Value + 1 <= MostRecentDraftYear ? $"/draft/{DraftYear.Value + 1}" : string.Empty;
+
+    private int MostRecentDraftYear = 2022;
+
     private List<DraftPickInformation> draftPicks = new List<DraftPickInformation>();
 
     private MudTable<DraftPickInformation>? Table;
+
+    [Parameter]
+    public int? DraftYear { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -59,24 +75,18 @@
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-        var draft = await NhlService.GetDraftAsync(2019);
-        if (draft is null)
-        {
-            return;
-        }
+        base.OnInitialized();
 
-        foreach (var p in draft.Picks)
-        {
-            var playerId = p.PlayerId;
-            var draftPickInformation = new DraftPickInformation(p);
-            draftPicks.Add(draftPickInformation);
-        }
+        DraftYear ??= MostRecentDraftYear;
+    }
 
-        Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
-        _ = SetPlayerStats();
+    protected override Task OnParametersSetAsync()
+    {
+        _ = InitializeDraftAsync();
+
+        return base.OnParametersSetAsync();
     }
 
     private async Task SetPlayerStats()
@@ -117,5 +127,26 @@
         }
 
         return text;
+    }
+
+    private async Task InitializeDraftAsync()
+    {
+        DraftYear ??= MostRecentDraftYear;
+        draftPicks = new List<DraftPickInformation>();
+        var draft = await NhlService.GetDraftAsync(DraftYear.Value);
+        if (draft is null)
+        {
+            return;
+        }
+
+        foreach (var p in draft.Picks)
+        {
+            var playerId = p.PlayerId;
+            var draftPickInformation = new DraftPickInformation(p);
+            draftPicks.Add(draftPickInformation);
+        }
+
+        Table?.SetRowsPerPage(draftPicks.Count / draftPicks.Max(p => p.Pick.RoundNumber));
+        _ = SetPlayerStats();
     }
 }
