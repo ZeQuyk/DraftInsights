@@ -6,7 +6,7 @@ public abstract class PlayerBase : INhlPlayer
 
     public abstract string FullName { get; }
 
-    public virtual string Url => $"player/{Id}?name={FullName}";
+    public virtual string Url => Id == default ? string.Empty : $"player/{Id}?name={FullName}";
 
     public virtual string AvatarUrl => $"https://cms.nhl.bamgrid.com/images/headshots/current/168x168/{Id}.jpg";
 }
