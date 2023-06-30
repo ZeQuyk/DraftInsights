@@ -41,6 +41,8 @@
 </MudTable>
 
 @code {
+    private string? _previousSeason;
+
     private PlayerInformation? playerInformation;
 
     [Parameter]
@@ -67,10 +69,12 @@
 
     private string? DisplaySeason(string? season)
     {
-        if (string.IsNullOrEmpty(season))
+        if (string.IsNullOrEmpty(season) || season == _previousSeason)
         {
             return null;
         }
+
+        _previousSeason = season;
 
         return season.Insert(season.Length / 2, "-");
     }
