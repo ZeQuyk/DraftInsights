@@ -4,6 +4,7 @@
 @using DraftInsights.Web.Components
 
 @inject DraftInsights.NHLApi.Services.INHLService NhlService;
+@inject DraftInsights.Core.Services.INHLEquivalencyService NhlEquivalencyService;
 
 <PageTitle>@PlayerName Career Stats</PageTitle>
 
@@ -19,6 +20,7 @@
         <MudTh>Assists</MudTh>
         <MudTh>Points</MudTh>
         <MudTh>Plus/Minus</MudTh>
+        <MudTh>NHLe</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd>@DisplaySeason(context.Season)</MudTd>
@@ -29,6 +31,12 @@
         <MudTd>@context?.Stat?.Assists</MudTd>
         <MudTd>@context?.Stat?.Points</MudTd>
         <MudTd>@context?.Stat?.PlusMinus</MudTd>
+        <MudTd>
+            @if (context?.Stat is not null)
+            {
+                @NhlEquivalencyService.GetNhlPointsEquivalent(context.League?.Name, context.Stat.Points, context.Stat.Games);
+            }
+        </MudTd>
     </RowTemplate>
 </MudTable>
 
