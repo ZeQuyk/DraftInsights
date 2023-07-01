@@ -22,6 +22,8 @@ public class NHLEquivalencyService : INHLEquivalencyService
         { "MHL", 0.143 },
         { "WHL", 0.302 },
         { "QMJHL", 0.284 },
+        { "BCHL", 0.080 },
+        { "AJHL", 0.062 },
     };
 
     public int? GetNhlPointsEquivalent(string? league, int points, int gamesPlayed)
