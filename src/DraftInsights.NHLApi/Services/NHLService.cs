@@ -52,4 +52,7 @@ public class NHLService : INHLService
 
     public string GetTeamLogoUrl(int teamId)
         => $"{TeamLogoUrlBase}/{teamId}.svg";
+
+    public DateTime GetSeasonStartDate(int year)
+        => new(year, 9, 15);
 }

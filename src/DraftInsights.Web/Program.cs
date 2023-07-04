@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 StaticWebAssetsLoader.UseStaticWebAssets(builder.Environment, builder.Configuration);
 
-// Add services to the container.
 services.AddRazorPages();
 services.AddServerSideBlazor();
 services.AddScoped<INumberRandomizerService, NumberRandomizerService>();

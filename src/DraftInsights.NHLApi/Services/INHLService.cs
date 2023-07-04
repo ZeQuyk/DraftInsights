@@ -13,4 +13,6 @@ public interface INHLService
     string GetTeamLogoUrl(int teamId);
 
     Task<PlayerDetail?> GetPlayerDetailAsync(int playerId);
+
+    DateTime GetSeasonStartDate(int year);
 }
